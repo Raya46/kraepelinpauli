@@ -17,17 +17,15 @@ interface Props {
     name: string;
     image: string;
     createdAt: number;
-    correct: number;
-    wrong: number;
+    testCompleted: number;
     totalPlayed: number;
-    PANKER: number;
-    TINKER: number;
-    JANKER: number;
-    HANKER: number;
+    accumulationTime: number;
   };
 }
 
 const AccountProfile = ({ user }: Props) => {
+  const timestamp = user?.createdAt;
+  const date = new Date(timestamp);
   return (
     <Card>
       <div className="flex flex-row justify-between p-6">
@@ -40,33 +38,23 @@ const AccountProfile = ({ user }: Props) => {
           <div className="flex flex-col">
             <h1>{user?.name || ""}</h1>
             <h1>
-              Joined {""}
-              {
-                user?.createdAt
-                // .toLocaleString(["en-US", "short", "2-digit", "numeric"])
-                // .replaceAll(",", "") || ""
-                // ?.toLocaleString("en-US", {
-                //   month: "short",
-                //   day: "2-digit",
-                //   year: "numeric",
-                // })
-                // .replaceAll(",", "")}
-              }
+              Joined At {""}
+              {date.toLocaleDateString()}
             </h1>
           </div>
         </div>
         <div className="flex flex-row justify-between w-full items-center">
           <div className="flex flex-col justify-center">
             <CardDescription>test started</CardDescription>
-            <CardTitle>723</CardTitle>
+            <CardTitle>{user?.totalPlayed}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>test completed</CardDescription>
-            <CardTitle>723</CardTitle>
+            <CardTitle>{user?.testCompleted}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>accumulation time</CardDescription>
-            <CardTitle>723</CardTitle>
+            <CardTitle>{user?.accumulationTime}</CardTitle>
           </div>
         </div>
       </div>

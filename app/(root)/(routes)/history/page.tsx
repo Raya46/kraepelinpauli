@@ -18,7 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import ChartLine from "@/components/chart-c";
+import ChartLine from "@/components/accountProfile/chart-c";
 
 const HistoryPage = () => {
   return (
