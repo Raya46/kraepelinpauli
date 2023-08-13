@@ -1,10 +1,12 @@
+"use client";
+
 import { History, Home, Menu, Settings, User } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export const MobileSideBar = async () => {
+export const MobileSideBar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -21,12 +23,6 @@ export const MobileSideBar = async () => {
       label: "History",
       pro: false,
     },
-    // {
-    //   icon: User,
-    //   href: "/sign-in",
-    //   label: "Sign In",
-    //   pro: false,
-    // },
     {
       icon: Settings,
       href: "/profile",

@@ -1,5 +1,3 @@
-"use client";
-
 import AccountProfile from "@/components/accountProfile/page";
 import ChartLine from "@/components/chart-c";
 import {
@@ -10,11 +8,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { currentUser } from "@clerk/nextjs";
 
-const ProfilePage = () => {
+async function ProfilePage() {
+  const user = await currentUser();
+
+  const userInfo = {};
+  const userData = {
+    id: user?.id,
+    objectId: userInfo._id,
+    username: user?.username,
+    name: user?.firstName || "",
+    image: user?.imageUrl,
+    createdAt: user?.createdAt,
+    correct: userInfo?.correct || 0,
+    wrong: userInfo?.wrong || 0,
+    totalPlayed: userInfo?.totalPlayed || 0,
+    PANKER: userInfo?.PANKER || 0,
+    TINKER: userInfo?.TINKER || 0,
+    JANKER: userInfo?.JANKER || 0,
+    HANKER: userInfo?.HANKER || 0,
+  };
   return (
     <div className="container mx-auto flex flex-col gap-10">
-      <AccountProfile />
+      <AccountProfile user={userData} />
       <Card>
         <div className="flex flex-col h-full w-full p-20">
           <ChartLine />
@@ -60,6 +77,6 @@ const ProfilePage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ProfilePage;

@@ -3,11 +3,10 @@
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { SignedOut, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/theme-toggle";
 import { usePathname, useRouter } from "next/navigation";
 import { MobileSideBar } from "../mobile-sidebar";
-import LoginButtonNav from "./signIn";
 
 const font = Poppins({
   weight: "600",
@@ -17,8 +16,6 @@ const font = Poppins({
 export const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  // const { isSignedIn, user } = useUser();
-
   const routes = [
     {
       href: "/",
@@ -30,11 +27,6 @@ export const Navbar = () => {
       label: "History",
       pro: false,
     },
-    // {
-    //   href: "/sign-in",
-    //   label: "Sign In",
-    //   pro: false,
-    // },
   ];
 
   const onNavigate = (url: string, pro: boolean) => {
@@ -72,7 +64,14 @@ export const Navbar = () => {
             {route.label}
           </div>
         ))}
-        <LoginButtonNav />
+        <SignedOut>
+          <Link
+            href="/sign-in"
+            className="text-muted-foreground text-sm group p-3 font-medium cursor-pointer hover:text-primary hover:bg-primary/10 rounded-lg transition justify-center"
+          >
+            Sign In
+          </Link>
+        </SignedOut>
         <ModeToggle />
         <UserButton
           userProfileMode="navigation"
