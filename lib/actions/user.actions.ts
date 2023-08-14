@@ -2,6 +2,7 @@
 
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
+import { revalidatePath } from "next/cache";
 
 export async function updateUser(
   userId: string,
@@ -10,26 +11,37 @@ export async function updateUser(
   correct: number,
   wrong: number,
   totalPlayed: number,
+  testCompleted: number,
+  accumulationTime: number,
   PANKER: number,
   TINKER: number,
   JANKER: number,
-  HANKER: number
+  HANKER: number,
+  path: string
 ): Promise<void> {
   connectToDB();
 
-  await User.findOneAndUpdate(
-    { id: userId },
-    {
-      username: username,
-      image,
-      correct,
-      wrong,
-      totalPlayed,
-      PANKER,
-      TINKER,
-      JANKER,
-      HANKER,
-    },
-    { upsert: true }
-  );
+  try {
+    await User.findOneAndUpdate(
+      { id: userId },
+      {
+        correct,
+        wrong,
+        totalPlayed,
+        testCompleted,
+        accumulationTime,
+        PANKER,
+        TINKER,
+        JANKER,
+        HANKER,
+      },
+      { upsert: true }
+    );
+
+    if (path === "/") {
+      revalidatePath(path);
+    }
+  } catch (error: any) {
+    throw new Error(`failed to update user :${error.message}`);
+  }
 }

@@ -46,44 +46,6 @@ async function ProfilePage() {
         </div>
       </Card>
       <CardStats user={userDataStats} />
-      {/* <div className="flex flex-row w-full justify-between gap-4">
-        <Card className="p-6 w-full">
-          <div className="flex flex-row gap-4 justify-center">
-            <div className="flex flex-col gap-4 items-center">
-              <CardDescription>Kecepatan Kerja</CardDescription>
-              <CardTitle>60.0</CardTitle>
-            </div>
-            <div className="flex flex-col gap-4 items-center">
-              <CardDescription>Ketelitian Kerja</CardDescription>
-              <CardTitle>95.0</CardTitle>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-6 w-full">
-          <div className="flex flex-row gap-4 justify-center ">
-            <div className="flex flex-col gap-4 items-center">
-              <CardDescription>Total Benar</CardDescription>
-              <CardTitle>100</CardTitle>
-            </div>
-            <div className="flex flex-col gap-4 items-center">
-              <CardDescription>Total Salah</CardDescription>
-              <CardTitle>9</CardTitle>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-6 w-full">
-          <div className="flex flex-row gap-4 justify-center ">
-            <div className="flex flex-col gap-4 items-center">
-              <CardDescription>Kecepatan Kerja</CardDescription>
-              <CardTitle>60.0</CardTitle>
-            </div>
-            <div className="flex flex-col gap-4 items-center">
-              <CardDescription>Ketelitian Kerja</CardDescription>
-              <CardTitle>95.0</CardTitle>
-            </div>
-          </div>
-        </Card>
-      </div> */}
     </div>
   );
 }
