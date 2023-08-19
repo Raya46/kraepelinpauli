@@ -4,36 +4,49 @@ import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import { revalidatePath } from "next/cache";
 
-export async function updateUser(
-  userId: string,
-  username: string,
-  image: string,
-  correct: number,
-  wrong: number,
-  totalPlayed: number,
-  testCompleted: number,
-  accumulationTime: number,
-  PANKER: number,
-  TINKER: number,
-  JANKER: number,
-  HANKER: number,
-  path: string
-): Promise<void> {
+interface Params {
+  userId: string;
+  username: string;
+  correct: number;
+  wrong: number;
+  totalPlayed: number;
+  accumulationTime: number;
+  panker: number;
+  tinker: number;
+  janker: number;
+  hanker: number;
+  path: string;
+}
+
+export async function updateUser({
+  userId,
+  username,
+  correct,
+  wrong,
+  totalPlayed,
+  accumulationTime,
+  panker,
+  tinker,
+  janker,
+  hanker,
+  path,
+}: Params): Promise<void> {
   connectToDB();
 
   try {
     await User.findOneAndUpdate(
       { id: userId },
       {
+        username,
         correct,
         wrong,
         totalPlayed,
-        testCompleted,
         accumulationTime,
-        PANKER,
-        TINKER,
-        JANKER,
-        HANKER,
+        panker,
+        tinker,
+        janker,
+        hanker,
+        path,
       },
       { upsert: true }
     );

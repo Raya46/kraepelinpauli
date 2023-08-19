@@ -1,3 +1,5 @@
+"use client";
+
 import { Card } from "@/components/ui/card";
 import { CardDescription } from "@/components/ui/card";
 import { CardTitle } from "@/components/ui/card";
@@ -8,10 +10,10 @@ interface Props {
     objectId: string;
     correct: number;
     wrong: number;
-    PANKER: number;
-    TINKER: number;
-    JANKER: number;
-    HANKER: number;
+    panker: number;
+    tinker: number;
+    janker: number;
+    hanker: number;
   };
 }
 
@@ -22,11 +24,11 @@ const CardStats = ({ user }: Props) => {
         <div className="flex flex-row gap-4 justify-center">
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Kecepatan Kerja</CardDescription>
-            <CardTitle>{user?.PANKER}</CardTitle>
+            <CardTitle>{user?.panker}</CardTitle>
           </div>
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Ketelitian Kerja</CardDescription>
-            <CardTitle>{user?.TINKER}</CardTitle>
+            <CardTitle>{user?.tinker}</CardTitle>
           </div>
         </div>
       </Card>
@@ -46,11 +48,11 @@ const CardStats = ({ user }: Props) => {
         <div className="flex flex-row gap-4 justify-center ">
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Keajegan Kerja</CardDescription>
-            <CardTitle>{user?.JANKER}</CardTitle>
+            <CardTitle>{user?.janker}</CardTitle>
           </div>
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Ketelitian Kerja</CardDescription>
-            <CardTitle>{user?.HANKER}</CardTitle>
+            <CardTitle>{user?.hanker}</CardTitle>
           </div>
         </div>
       </Card>

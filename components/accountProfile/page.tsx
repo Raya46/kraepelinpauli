@@ -17,7 +17,6 @@ interface Props {
     name: string;
     image: string;
     createdAt: number;
-    testCompleted: number;
     totalPlayed: number;
     accumulationTime: number;
   };
@@ -50,7 +49,7 @@ const AccountProfile = ({ user }: Props) => {
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>test completed</CardDescription>
-            <CardTitle>{user?.testCompleted}</CardTitle>
+            <CardTitle>{user?.totalPlayed}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>accumulation time</CardDescription>

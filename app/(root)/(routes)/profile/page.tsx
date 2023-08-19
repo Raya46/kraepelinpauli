@@ -22,7 +22,6 @@ async function ProfilePage() {
     name: user?.firstName || "",
     image: user?.imageUrl,
     createdAt: user?.createdAt || 0,
-    testCompleted: userInfo?.testCompleted || 0,
     totalPlayed: userInfo?.totalPlayed || 0,
     accumulationTime: userInfo?.accumulationTime || 0,
   };
@@ -32,10 +31,10 @@ async function ProfilePage() {
     objectId: userInfo._id,
     correct: userInfo?.correct || 0,
     wrong: userInfo?.wrong || 0,
-    PANKER: userInfo?.PANKER || 0,
-    TINKER: userInfo?.TINKER || 0,
-    JANKER: userInfo?.JANKER || 0,
-    HANKER: userInfo?.HANKER || 0,
+    panker: userInfo?.panker || 0,
+    tinker: userInfo?.tinker || 0,
+    janker: userInfo?.janker || 0,
+    hanker: userInfo?.hanker || 0,
   };
   return (
     <div className="container mx-auto flex flex-col gap-10">

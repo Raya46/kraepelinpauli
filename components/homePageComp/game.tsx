@@ -1,18 +1,37 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { updateUser } from "@/lib/actions/user.actions";
 import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+interface Props {
+  user: {
+    id: string;
+    username: string;
+    objectId: string;
+    correct: number;
+    wrong: number;
+    totalPlayed: number;
+    accumulationTime: number;
+    panker: number;
+    tinker: number;
+    janker: number;
+    hanker: number;
+  };
+}
 
-const Game = () => {
+const Game = ({ user }: Props) => {
   const [startTimer, setStartTimer] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
-  const [randomNumber1, setRandomNumber1] = useState(0);
-  const [randomNumber2, setRandomNumber2] = useState(0);
+  const [userInputs, setUserInputs] = useState<string[]>(Array(5).fill(""));
+  const [results, setResults] = useState<boolean[]>(Array(5).fill(false));
   const [showModal, setShowModal] = useState(false);
   const [timerFinished, setTimerFinished] = useState(false);
-  const [userInput, setUserInput] = useState("");
 
+  const pathname = usePathname();
+  const router = useRouter();
   let intervalNow: NodeJS.Timeout | null = null;
 
   useEffect(() => {
@@ -40,33 +59,82 @@ const Game = () => {
   }, [startTimer, timeRemaining]);
 
   useEffect(() => {
-    const newRandomNumbers = Array(5).fill(0).map(getRandomNumber);
-    setRandomNumbers(newRandomNumbers);
+    getRandomNumber();
 
-    setRandomNumber1(newRandomNumbers[0]); // Angka pertama
-    setRandomNumber2(newRandomNumbers[1]); // Angka kedua
+    const newRandomNumbers = Array(6).fill(0).map(getRandomNumber);
+    setRandomNumbers(newRandomNumbers);
   }, []);
 
-  const checkAnswer = () => {
-    const userAnswer = parseInt(userInput);
-
-    if (userAnswer === randomNumber1 + randomNumber2) {
-      console.log("Benar");
-    } else {
-      console.log("Salah");
+  useEffect(() => {
+    if (checkAllInputsFilled()) {
+      checkAnswer();
+      resetInputsAndRandomNumbers();
     }
+  }, [userInputs]);
+
+  const resetInputsAndRandomNumbers = () => {
+    const newRandomNumbers = Array(6).fill(0).map(getRandomNumber);
+    setRandomNumbers(newRandomNumbers);
+    setUserInputs(Array(5).fill(""));
   };
 
-  const handleResetTimer = () => {
+  const checkAllInputsFilled = () => {
+    return userInputs.every((input) => input !== "");
+  };
+
+  const checkAnswer = () => {
+    const userAnswers = userInputs.map((input) => parseInt(input));
+
+    const correctAnswers = randomNumbers.map((num, index) => {
+      const nextIndex = index + 1;
+      if (nextIndex < randomNumbers.length) {
+        return (num + randomNumbers[nextIndex]) % 10;
+      }
+      return num; // For the last number, no need to take the last digit
+    });
+
+    const newResults = userAnswers.map((userAnswer, index) => {
+      return userAnswer === correctAnswers[index];
+    });
+
+    setResults(newResults);
+  };
+
+  const handleUserInputChange = (value: string, index: number) => {
+    const updatedInputs = [...userInputs];
+    updatedInputs[index] = value;
+    setUserInputs(updatedInputs);
+  };
+
+  const totalCorrect = results.filter((result) => result).length;
+  const totalWrong = results.length - totalCorrect;
+
+  const handleResetTimer = async (values: any) => {
+    // await updateUser({
+    //   userId: user.id,
+    //   username: user.username,
+    //   correct: values.correct,
+    //   wrong: values.wrong,
+    //   totalPlayed: values.totalPlayed,
+    //   accumulationTime: values.accumulationTime,
+    //   panker: values.panker,
+    //   tinker: values.tinker,
+    //   janker: values.janker,
+    //   hanker: values.hanker,
+    //   path: pathname,
+    // });
+    // if (pathname === "/") {
+    //   router.back();
+    // } else {
+    //   router.push("/");
+    // }
+    setResults(Array(5).fill(false));
+    setUserInputs(Array(5).fill(""));
     setShowModal(false);
     setStartTimer(false);
     setTimerFinished(false);
     clearInterval(intervalNow as NodeJS.Timeout);
     setTimeRemaining(60);
-  };
-
-  const getRandomNumber = () => {
-    return Math.floor(Math.random() * 10);
   };
 
   const formatTime = (timeInSeconds: number) => {
@@ -75,6 +143,10 @@ const Game = () => {
     return `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
       .padStart(2, "0")}`;
+  };
+
+  const getRandomNumber = () => {
+    return Math.floor(Math.random() * 10);
   };
 
   return (
@@ -90,76 +162,156 @@ const Game = () => {
           </div>
         </div>
       )}
-      <Card className="flex flex-row mt-10 rounded-lg border-2 justify-center items-center p-4 pl-10">
+      <Card className="flex flex-row mt-10 rounded-lg border-2 justify-center items-center p-4 pl-10 gap-4">
         <div className="flex flex-col w-full">
           <ul className="w-full">
-            <li>{randomNumber1}</li>
-            <input
-              type="number"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-            />
-            <li>{randomNumber2}</li>
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="number"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) =>
+                              handleUserInputChange(
+                                e.target.value,
+                                rowIndex * 5 + colIndex
+                              )
+                            }
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
           </ul>
         </div>
         {/* <div className="flex flex-col w-full">
-            <ul className="w-full">
-              {randomNumbers.map((randomNum, index) => (
-                <div>
-                  <li key={index}>{randomNum}</li>
-                  <input key={index} type="number" />
-                </div>
-              ))}
-              <li>9</li>
-            </ul>
-          </div> */}
-        {/* <div className="flex flex-col w-full">
-            <ul className="w-full">
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-            </ul>
-          </div>
-          <div className="flex flex-col w-full">
-            <ul className="w-full">
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-            </ul>
-          </div>
-          <div className="flex flex-col w-full">
-            <ul className="w-full">
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-              <input type="number" />
-              <li>1</li>
-            </ul>
-          </div> */}
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="number"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) =>
+                              handleUserInputChange(
+                                e.target.value,
+                                rowIndex * 5 + colIndex
+                              )
+                            }
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="number"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) =>
+                              handleUserInputChange(
+                                e.target.value,
+                                rowIndex * 5 + colIndex
+                              )
+                            }
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="number"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) =>
+                              handleUserInputChange(
+                                e.target.value,
+                                rowIndex * 5 + colIndex
+                              )
+                            }
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="number"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) =>
+                              handleUserInputChange(
+                                e.target.value,
+                                rowIndex * 5 + colIndex
+                              )
+                            }
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div> */}
       </Card>
-      <button onClick={checkAnswer}>Check Answer</button>
+      <button onClick={checkAnswer}>Check Answers</button>
+      {totalCorrect > 0 && <p>Total Benar: {totalCorrect}</p>}
+      {totalWrong > 0 && <p>Total Salah: {totalWrong}</p>}
       <div className="flex justify-center">
         {startTimer ? (
           <button
