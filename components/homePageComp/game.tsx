@@ -24,14 +24,38 @@ const Game = () => {
   const [startTimer, setStartTimer] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
+  const [randomNumbers2, setRandomNumbers2] = useState<number[]>([]);
+  const [randomNumbers3, setRandomNumbers3] = useState<number[]>([]);
+  const [randomNumbers4, setRandomNumbers4] = useState<number[]>([]);
+  const [randomNumbers5, setRandomNumbers5] = useState<number[]>([]);
   const [userInputs, setUserInputs] = useState<string[]>(Array(5).fill(""));
+  const [userInputs2, setUserInputs2] = useState<string[]>(Array(5).fill(""));
+  const [userInputs3, setUserInputs3] = useState<string[]>(Array(5).fill(""));
+  const [userInputs4, setUserInputs4] = useState<string[]>(Array(5).fill(""));
+  const [userInputs5, setUserInputs5] = useState<string[]>(Array(5).fill(""));
   const [iteration, setIteration] = useState(1);
   const [results, setResults] = useState<boolean[]>(Array(5).fill(false));
+  const [results2, setResults2] = useState<boolean[]>(Array(5).fill(false));
+  const [results3, setResults3] = useState<boolean[]>(Array(5).fill(false));
+  const [results4, setResults4] = useState<boolean[]>(Array(5).fill(false));
+  const [results5, setResults5] = useState<boolean[]>(Array(5).fill(false));
   const [selectedInput, setSelectedInput] = useState(0);
+  const [selectedInput2, setSelectedInput2] = useState(0);
+  const [selectedInput3, setSelectedInput3] = useState(0);
+  const [selectedInput4, setSelectedInput4] = useState(0);
+  const [selectedInput5, setSelectedInput5] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [timerFinished, setTimerFinished] = useState(false);
   const [totalCorrectCount, setTotalCorrectCount] = useState(0);
+  const [totalCorrectCount2, setTotalCorrectCount2] = useState(0);
+  const [totalCorrectCount3, setTotalCorrectCount3] = useState(0);
+  const [totalCorrectCount4, setTotalCorrectCount4] = useState(0);
+  const [totalCorrectCount5, setTotalCorrectCount5] = useState(0);
   const [totalWrongCount, setTotalWrongCount] = useState(0);
+  const [totalWrongCount2, setTotalWrongCount2] = useState(0);
+  const [totalWrongCount3, setTotalWrongCount3] = useState(0);
+  const [totalWrongCount4, setTotalWrongCount4] = useState(0);
+  const [totalWrongCount5, setTotalWrongCount5] = useState(0);
   const pathname = usePathname();
   const router = useRouter();
   let intervalNow: NodeJS.Timeout | null = null;
@@ -219,7 +243,183 @@ const Game = () => {
                                 );
                               }
                             }}
-                            disabled={!startTimer && iteration <= 5}
+                            disabled={!startTimer || iteration !== 1}
+                            ref={(input) => {
+                              if (
+                                input &&
+                                selectedInput === rowIndex * 5 + colIndex
+                              ) {
+                                input.focus();
+                              }
+                            }}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="text"
+                            maxLength={1}
+                            pattern="[0-9]"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) => {
+                              const inputValue = e.target.value;
+                              if (/^[0-9]*$/.test(inputValue)) {
+                                // Mengizinkan string kosong atau angka
+                                handleUserInputChange(
+                                  inputValue,
+                                  rowIndex * 5 + colIndex
+                                );
+                              }
+                            }}
+                            disabled={iteration !== 2}
+                            ref={(input) => {
+                              if (
+                                input &&
+                                selectedInput === rowIndex * 5 + colIndex
+                              ) {
+                                input.focus();
+                              }
+                            }}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="text"
+                            maxLength={1}
+                            pattern="[0-9]"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) => {
+                              const inputValue = e.target.value;
+                              if (/^[0-9]*$/.test(inputValue)) {
+                                // Mengizinkan string kosong atau angka
+                                handleUserInputChange(
+                                  inputValue,
+                                  rowIndex * 5 + colIndex
+                                );
+                              }
+                            }}
+                            disabled={iteration !== 3}
+                            ref={(input) => {
+                              if (
+                                input &&
+                                selectedInput === rowIndex * 5 + colIndex
+                              ) {
+                                input.focus();
+                              }
+                            }}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="text"
+                            maxLength={1}
+                            pattern="[0-9]"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) => {
+                              const inputValue = e.target.value;
+                              if (/^[0-9]*$/.test(inputValue)) {
+                                // Mengizinkan string kosong atau angka
+                                handleUserInputChange(
+                                  inputValue,
+                                  rowIndex * 5 + colIndex
+                                );
+                              }
+                            }}
+                            disabled={iteration !== 4}
+                            ref={(input) => {
+                              if (
+                                input &&
+                                selectedInput === rowIndex * 5 + colIndex
+                              ) {
+                                input.focus();
+                              }
+                            }}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col w-full">
+          <ul className="w-full">
+            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+              (_, rowIndex) => (
+                <li key={rowIndex} className="flex flex-col">
+                  {randomNumbers
+                    .slice(rowIndex * 6, rowIndex * 6 + 6)
+                    .map((randomNumber, colIndex) => (
+                      <React.Fragment key={colIndex}>
+                        <span>{randomNumber}</span>
+                        {colIndex < 5 && (
+                          <input
+                            type="text"
+                            maxLength={1}
+                            pattern="[0-9]"
+                            value={userInputs[rowIndex * 5 + colIndex]}
+                            onChange={(e) => {
+                              const inputValue = e.target.value;
+                              if (/^[0-9]*$/.test(inputValue)) {
+                                // Mengizinkan string kosong atau angka
+                                handleUserInputChange(
+                                  inputValue,
+                                  rowIndex * 5 + colIndex
+                                );
+                              }
+                            }}
+                            disabled={iteration !== 5}
                             ref={(input) => {
                               if (
                                 input &&

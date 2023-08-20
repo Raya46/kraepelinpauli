@@ -47,15 +47,15 @@ const AccountProfile = ({ userDataAccount, userDataStats }: Props) => {
         <div className="flex flex-row justify-between w-full items-center">
           <div className="flex flex-col justify-center">
             <CardDescription>test started</CardDescription>
-            <CardTitle>{userDataStats?.totalPlayed}</CardTitle>
+            <CardTitle>{userDataStats?.totalPlayed || 0}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>test completed</CardDescription>
-            <CardTitle>{userDataStats?.totalPlayed}</CardTitle>
+            <CardTitle>{userDataStats?.totalPlayed || 0}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>accumulation time</CardDescription>
-            <CardTitle>{userDataStats?.accumulationTime}</CardTitle>
+            <CardTitle>{userDataStats?.accumulationTime || 0}</CardTitle>
           </div>
         </div>
       </div>
