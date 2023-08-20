@@ -22,13 +22,13 @@ async function ProfilePage() {
     name: user?.firstName || "",
     image: user?.imageUrl,
     createdAt: user?.createdAt || 0,
-    totalPlayed: userInfo?.totalPlayed || 0,
-    accumulationTime: userInfo?.accumulationTime || 0,
   };
 
   const userDataStats = {
     id: user?.id,
     objectId: userInfo._id,
+    totalPlayed: userInfo?.totalPlayed || 0,
+    accumulationTime: userInfo?.accumulationTime || 0,
     correct: userInfo?.correct || 0,
     wrong: userInfo?.wrong || 0,
     panker: userInfo?.panker || 0,
@@ -38,13 +38,13 @@ async function ProfilePage() {
   };
   return (
     <div className="container mx-auto flex flex-col gap-10">
-      <AccountProfile user={userDataAccount} />
+      <AccountProfile userDataAccount={userDataAccount} />
       <Card>
         <div className="flex flex-col h-full w-full p-20">
           <ChartLine />
         </div>
       </Card>
-      <CardStats user={userDataStats} />
+      <CardStats userDataStats={userDataStats} />
     </div>
   );
 }

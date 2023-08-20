@@ -5,9 +5,11 @@ import { CardDescription } from "@/components/ui/card";
 import { CardTitle } from "@/components/ui/card";
 
 interface Props {
-  user: {
+  userDataStats: {
     id: string;
     objectId: string;
+    totalPlayed: number;
+    accumulationTime: number;
     correct: number;
     wrong: number;
     panker: number;
@@ -17,18 +19,18 @@ interface Props {
   };
 }
 
-const CardStats = ({ user }: Props) => {
+const CardStats = ({ userDataStats }: Props) => {
   return (
     <div className="flex flex-row w-full justify-between gap-4">
       <Card className="p-6 w-full">
         <div className="flex flex-row gap-4 justify-center">
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Kecepatan Kerja</CardDescription>
-            <CardTitle>{user?.panker}</CardTitle>
+            <CardTitle>{userDataStats?.panker}</CardTitle>
           </div>
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Ketelitian Kerja</CardDescription>
-            <CardTitle>{user?.tinker}</CardTitle>
+            <CardTitle>{userDataStats?.tinker}</CardTitle>
           </div>
         </div>
       </Card>
@@ -36,11 +38,11 @@ const CardStats = ({ user }: Props) => {
         <div className="flex flex-row gap-4 justify-center ">
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Total Benar</CardDescription>
-            <CardTitle>{user?.correct}</CardTitle>
+            <CardTitle>{userDataStats?.correct}</CardTitle>
           </div>
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Total Salah</CardDescription>
-            <CardTitle>{user?.wrong}</CardTitle>
+            <CardTitle>{userDataStats?.wrong}</CardTitle>
           </div>
         </div>
       </Card>
@@ -48,11 +50,11 @@ const CardStats = ({ user }: Props) => {
         <div className="flex flex-row gap-4 justify-center ">
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Keajegan Kerja</CardDescription>
-            <CardTitle>{user?.janker}</CardTitle>
+            <CardTitle>{userDataStats?.janker}</CardTitle>
           </div>
           <div className="flex flex-col gap-4 items-center">
             <CardDescription>Ketelitian Kerja</CardDescription>
-            <CardTitle>{user?.hanker}</CardTitle>
+            <CardTitle>{userDataStats?.hanker}</CardTitle>
           </div>
         </div>
       </Card>

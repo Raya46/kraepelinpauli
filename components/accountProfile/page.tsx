@@ -10,32 +10,34 @@ import {
 } from "@/components/ui/card";
 
 interface Props {
-  user: {
+  userDataAccount: {
     id: string;
     objectId: string;
     username: string;
     name: string;
     image: string;
     createdAt: number;
+  };
+  userDataStats: {
     totalPlayed: number;
     accumulationTime: number;
   };
 }
 
-const AccountProfile = ({ user }: Props) => {
-  const timestamp = user?.createdAt;
+const AccountProfile = ({ userDataAccount, userDataStats }: Props) => {
+  const timestamp = userDataAccount?.createdAt;
   const date = new Date(timestamp);
   return (
     <Card>
       <div className="flex flex-row justify-between p-6">
         <div className="flex flex-row w-1/2 items-center gap-4 ">
           <img
-            src={user?.image || ""}
+            src={userDataAccount?.image || ""}
             className="object-cover w-[4.6rem] h-w-[4.6rem] rounded-full"
-            alt={user?.image || ""}
+            alt={userDataAccount?.image || ""}
           />
           <div className="flex flex-col">
-            <h1>{user?.name || ""}</h1>
+            <h1>{userDataAccount?.name || ""}</h1>
             <h1>
               Joined At {""}
               {date.toLocaleDateString()}
@@ -45,15 +47,15 @@ const AccountProfile = ({ user }: Props) => {
         <div className="flex flex-row justify-between w-full items-center">
           <div className="flex flex-col justify-center">
             <CardDescription>test started</CardDescription>
-            <CardTitle>{user?.totalPlayed}</CardTitle>
+            <CardTitle>{userDataStats?.totalPlayed}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>test completed</CardDescription>
-            <CardTitle>{user?.totalPlayed}</CardTitle>
+            <CardTitle>{userDataStats?.totalPlayed}</CardTitle>
           </div>
           <div className="flex flex-col justify-center">
             <CardDescription>accumulation time</CardDescription>
-            <CardTitle>{user?.accumulationTime}</CardTitle>
+            <CardTitle>{userDataStats?.accumulationTime}</CardTitle>
           </div>
         </div>
       </div>
