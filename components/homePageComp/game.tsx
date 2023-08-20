@@ -27,6 +27,7 @@ const Game = () => {
   const [userInputs, setUserInputs] = useState<string[]>(Array(5).fill(""));
   const [iteration, setIteration] = useState(1);
   const [results, setResults] = useState<boolean[]>(Array(5).fill(false));
+  const [selectedInput, setSelectedInput] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [timerFinished, setTimerFinished] = useState(false);
   const [totalCorrectCount, setTotalCorrectCount] = useState(0);
@@ -34,6 +35,24 @@ const Game = () => {
   const pathname = usePathname();
   const router = useRouter();
   let intervalNow: NodeJS.Timeout | null = null;
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedInput((prev) => Math.max(0, prev - 1));
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedInput((prev) => Math.min(4, prev + 1));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
 
   useEffect(() => {
     if (iteration <= 5 && startTimer) {
@@ -201,6 +220,14 @@ const Game = () => {
                               }
                             }}
                             disabled={!startTimer && iteration <= 5}
+                            ref={(input) => {
+                              if (
+                                input &&
+                                selectedInput === rowIndex * 5 + colIndex
+                              ) {
+                                input.focus();
+                              }
+                            }}
                           />
                         )}
                       </React.Fragment>
