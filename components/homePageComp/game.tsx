@@ -22,7 +22,8 @@ import React from "react";
 
 const Game = () => {
   const [startTimer, setStartTimer] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(60);
+  let [played, setPlayed] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(30);
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
   const [randomNumbers2, setRandomNumbers2] = useState<number[]>([]);
   const [randomNumbers3, setRandomNumbers3] = useState<number[]>([]);
@@ -65,9 +66,17 @@ const Game = () => {
       if (e.key === "ArrowUp") {
         e.preventDefault();
         setSelectedInput((prev) => Math.max(0, prev - 1));
+        setSelectedInput2((prev) => Math.max(0, prev - 1));
+        setSelectedInput3((prev) => Math.max(0, prev - 1));
+        setSelectedInput4((prev) => Math.max(0, prev - 1));
+        setSelectedInput5((prev) => Math.max(0, prev - 1));
       } else if (e.key === "ArrowDown") {
         e.preventDefault();
         setSelectedInput((prev) => Math.min(4, prev + 1));
+        setSelectedInput2((prev) => Math.min(4, prev + 1));
+        setSelectedInput3((prev) => Math.min(4, prev + 1));
+        setSelectedInput4((prev) => Math.min(4, prev + 1));
+        setSelectedInput5((prev) => Math.min(4, prev + 1));
       }
     };
 
@@ -86,8 +95,8 @@ const Game = () => {
             clearInterval(intervalNow as NodeJS.Timeout);
             if (iteration < 5) {
               setIteration((prevIteration) => prevIteration + 1);
-              setTimeRemaining(60);
-              return 60; // Return the new value to satisfy the type
+              setTimeRemaining(30);
+              return 30; // Return the new value to satisfy the type
             } else {
               setShowModal(true);
               return prevTime; // Return the same value to satisfy the type
@@ -106,26 +115,77 @@ const Game = () => {
 
   useEffect(() => {
     getRandomNumber();
-
     const newRandomNumbers = Array(6).fill(0).map(getRandomNumber);
+    const newRandomNumbers2 = Array(6).fill(0).map(getRandomNumber);
+    const newRandomNumbers3 = Array(6).fill(0).map(getRandomNumber);
+    const newRandomNumbers4 = Array(6).fill(0).map(getRandomNumber);
+    const newRandomNumbers5 = Array(6).fill(0).map(getRandomNumber);
     setRandomNumbers(newRandomNumbers);
+    setRandomNumbers2(newRandomNumbers2);
+    setRandomNumbers3(newRandomNumbers3);
+    setRandomNumbers4(newRandomNumbers4);
+    setRandomNumbers5(newRandomNumbers5);
   }, []);
 
   useEffect(() => {
     if (checkAllInputsFilled()) {
       checkAnswer();
       resetInputsAndRandomNumbers();
+    } else if (checkAllInputsFilled2()) {
+      checkAnswer2();
+      resetInputsAndRandomNumbers2();
+    } else if (checkAllInputsFilled3()) {
+      checkAnswer3();
+      resetInputsAndRandomNumbers3();
+    } else if (checkAllInputsFilled4()) {
+      checkAnswer4();
+      resetInputsAndRandomNumbers4();
+    } else if (checkAllInputsFilled5()) {
+      checkAnswer5();
+      resetInputsAndRandomNumbers5();
     }
-  }, [userInputs]);
+  }, [userInputs, userInputs2, userInputs3, userInputs4, userInputs5]);
 
   const resetInputsAndRandomNumbers = () => {
     const newRandomNumbers = Array(6).fill(0).map(getRandomNumber);
     setRandomNumbers(newRandomNumbers);
     setUserInputs(Array(5).fill(""));
   };
+  const resetInputsAndRandomNumbers2 = () => {
+    const newRandomNumbers2 = Array(6).fill(0).map(getRandomNumber);
+    setRandomNumbers2(newRandomNumbers2);
+    setUserInputs2(Array(5).fill(""));
+  };
+  const resetInputsAndRandomNumbers3 = () => {
+    const newRandomNumbers3 = Array(6).fill(0).map(getRandomNumber);
+    setRandomNumbers3(newRandomNumbers3);
+    setUserInputs3(Array(5).fill(""));
+  };
+  const resetInputsAndRandomNumbers4 = () => {
+    const newRandomNumbers4 = Array(6).fill(0).map(getRandomNumber);
+    setRandomNumbers4(newRandomNumbers4);
+    setUserInputs4(Array(5).fill(""));
+  };
+  const resetInputsAndRandomNumbers5 = () => {
+    const newRandomNumbers5 = Array(6).fill(0).map(getRandomNumber);
+    setRandomNumbers5(newRandomNumbers5);
+    setUserInputs5(Array(5).fill(""));
+  };
 
   const checkAllInputsFilled = () => {
     return userInputs.every((input) => input !== "");
+  };
+  const checkAllInputsFilled2 = () => {
+    return userInputs2.every((input) => input !== "");
+  };
+  const checkAllInputsFilled3 = () => {
+    return userInputs3.every((input) => input !== "");
+  };
+  const checkAllInputsFilled4 = () => {
+    return userInputs4.every((input) => input !== "");
+  };
+  const checkAllInputsFilled5 = () => {
+    return userInputs5.every((input) => input !== "");
   };
 
   const checkAnswer = () => {
@@ -152,26 +212,144 @@ const Game = () => {
     setTotalWrongCount(totalWrongCount + wrongCount);
   };
 
+  const checkAnswer2 = () => {
+    const userAnswers2 = userInputs2.map((input) => parseInt(input));
+
+    const correctAnswers2 = randomNumbers2.map((num, index) => {
+      const nextIndex2 = index + 1;
+      if (nextIndex2 < randomNumbers2.length) {
+        return (num + randomNumbers2[nextIndex2]) % 10;
+      }
+      return num;
+    });
+
+    const newResults2 = userAnswers2.map((userAnswer2, index) => {
+      return userAnswer2 === correctAnswers2[index];
+    });
+
+    setResults2(newResults2);
+
+    const correctCount2 = newResults2.filter((result2) => result2).length;
+    const wrongCount2 = newResults2.length - correctCount2;
+
+    setTotalCorrectCount2(totalCorrectCount2 + correctCount2);
+    setTotalWrongCount2(totalWrongCount2 + wrongCount2);
+  };
+
+  const checkAnswer3 = () => {
+    const userAnswers3 = userInputs3.map((input3) => parseInt(input3));
+
+    const correctAnswers3 = randomNumbers3.map((num, index) => {
+      const nextIndex3 = index + 1;
+      if (nextIndex3 < randomNumbers3.length) {
+        return (num + randomNumbers3[nextIndex3]) % 10;
+      }
+      return num;
+    });
+
+    const newResults3 = userAnswers3.map((userAnswer3, index) => {
+      return userAnswer3 === correctAnswers3[index];
+    });
+
+    setResults3(newResults3);
+
+    const correctCount3 = newResults3.filter((result3) => result3).length;
+    const wrongCount3 = newResults3.length - correctCount3;
+
+    setTotalCorrectCount3(totalCorrectCount3 + correctCount3);
+    setTotalWrongCount3(totalWrongCount3 + wrongCount3);
+  };
+
+  const checkAnswer4 = () => {
+    const userAnswers4 = userInputs4.map((input) => parseInt(input));
+
+    const correctAnswers4 = randomNumbers4.map((num, index) => {
+      const nextIndex = index + 1;
+      if (nextIndex < randomNumbers4.length) {
+        return (num + randomNumbers4[nextIndex]) % 10;
+      }
+      return num;
+    });
+
+    const newResults = userAnswers4.map((userAnswer4, index) => {
+      return userAnswer4 === correctAnswers4[index];
+    });
+
+    setResults4(newResults);
+
+    const correctCount4 = newResults.filter((result) => result).length;
+    const wrongCount4 = newResults.length - correctCount4;
+
+    setTotalCorrectCount4(totalCorrectCount4 + correctCount4);
+    setTotalWrongCount4(totalWrongCount4 + wrongCount4);
+  };
+
+  const checkAnswer5 = () => {
+    const userAnswers = userInputs5.map((input) => parseInt(input));
+
+    const correctAnswers = randomNumbers5.map((num, index) => {
+      const nextIndex = index + 1;
+      if (nextIndex < randomNumbers5.length) {
+        return (num + randomNumbers5[nextIndex]) % 10;
+      }
+      return num;
+    });
+
+    const newResults = userAnswers.map((userAnswer, index) => {
+      return userAnswer === correctAnswers[index];
+    });
+
+    setResults5(newResults);
+
+    const correctCount = newResults.filter((result) => result).length;
+    const wrongCount = newResults.length - correctCount;
+
+    setTotalCorrectCount5(totalCorrectCount5 + correctCount);
+    setTotalWrongCount5(totalWrongCount5 + wrongCount);
+  };
+
   const handleUserInputChange = (value: string, index: number) => {
     if (iteration <= 1) {
       const updatedInputs = [...userInputs];
       updatedInputs[index] = value;
       setUserInputs(updatedInputs);
+    } else if (iteration <= 2) {
+      const updatedInputs2 = [...userInputs2];
+      updatedInputs2[index] = value;
+      setUserInputs2(updatedInputs2);
+    } else if (iteration <= 3) {
+      const updatedInputs3 = [...userInputs3];
+      updatedInputs3[index] = value;
+      setUserInputs3(updatedInputs3);
+    } else if (iteration <= 4) {
+      const updatedInputs4 = [...userInputs4];
+      updatedInputs4[index] = value;
+      setUserInputs4(updatedInputs4);
+    } else if (iteration <= 5) {
+      const updatedInputs5 = [...userInputs5];
+      updatedInputs5[index] = value;
+      setUserInputs5(updatedInputs5);
     }
   };
 
-  const handleResetTimer = async (values: any) => {
+  const playGame = () => {
+    setPlayed(played + 1);
+    setStartTimer(true);
+    console.log(played);
+  };
+
+  const handleResetTimer = async () => {
     // await updateUser({
     //   userId: user.id,
     //   username: user.username,
-    //   correct: values.correct,
-    //   wrong: values.wrong,
-    //   totalPlayed: values.totalPlayed,
-    //   accumulationTime: values.accumulationTime,
-    //   panker: values.panker,
-    //   tinker: values.tinker,
-    //   janker: values.janker,
-    //   hanker: values.hanker,
+    //   correct: allCorrect,
+    //   wrong: allWrong,
+    //   totalPlayed: played,
+    //   accumulationTime: timeRemaining ++30,
+    //   panker: calculatePankerValue,
+    //   tinker: calculateTinkerValue,
+    //   janker: calculateJankerValue,
+    //   hanker: calculateHankerValue,
     //   path: pathname,
     // });
     // if (pathname === "/") {
@@ -180,27 +358,209 @@ const Game = () => {
     //   router.push("/");
     // }
     setTotalCorrectCount(0);
+    setTotalCorrectCount2(0);
+    setTotalCorrectCount3(0);
+    setTotalCorrectCount4(0);
+    setTotalCorrectCount5(0);
     setTotalWrongCount(0);
+    setTotalWrongCount2(0);
+    setTotalWrongCount3(0);
+    setTotalWrongCount4(0);
+    setTotalWrongCount5(0);
     setResults(Array(5).fill(false));
+    setResults2(Array(5).fill(false));
+    setResults3(Array(5).fill(false));
+    setResults4(Array(5).fill(false));
+    setResults5(Array(5).fill(false));
     setUserInputs(Array(5).fill(""));
+    setUserInputs2(Array(5).fill(""));
+    setUserInputs3(Array(5).fill(""));
+    setUserInputs4(Array(5).fill(""));
+    setUserInputs5(Array(5).fill(""));
     setShowModal(false);
     setIteration(1);
     setStartTimer(false);
     setTimerFinished(false);
     clearInterval(intervalNow as NodeJS.Timeout);
-    setTimeRemaining(60);
+    setTimeRemaining(30);
   };
 
   const formatTime = (timeInSeconds: number) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
+    const seconds = timeInSeconds;
+    return `00:${seconds.toString().padStart(2, "0")}`;
   };
 
   const getRandomNumber = () => {
     return Math.floor(Math.random() * 10);
+  };
+
+  const allCorrect =
+    totalCorrectCount +
+    totalCorrectCount2 +
+    totalCorrectCount3 +
+    totalCorrectCount4 +
+    totalCorrectCount5;
+  const allWrong =
+    totalWrongCount +
+    totalWrongCount2 +
+    totalWrongCount3 +
+    totalWrongCount4 +
+    totalWrongCount5;
+
+  const answered = [
+    totalCorrectCount + totalWrongCount,
+    totalCorrectCount2 + totalWrongCount2,
+    totalCorrectCount3 + totalWrongCount3,
+    totalCorrectCount4 + totalWrongCount4,
+    totalCorrectCount5 + totalWrongCount5,
+  ];
+
+  const correctArray = [
+    totalCorrectCount,
+    totalCorrectCount2,
+    totalCorrectCount3,
+    totalCorrectCount4,
+    totalCorrectCount5,
+  ];
+
+  const correctMax = Math.max(...correctArray);
+  const correctMin = Math.min(...correctArray);
+
+  const gap = correctMax - correctMin;
+
+  const totalAnswered = allWrong + allCorrect;
+
+  const calculateAnsweredDifferences = () => {
+    const differences = [];
+    for (let i = 0; i < answered.length - 1; i++) {
+      const difference = Math.abs(answered[i] - answered[i + 1]);
+      differences.push(difference);
+    }
+    // console.log(differences);
+    return differences;
+  };
+
+  const answeredDifferences = calculateAnsweredDifferences();
+  const totalDifferences = answeredDifferences.reduce(
+    (total, difference) => total + difference,
+    0
+  );
+
+  const calculateJankerValue = () => {
+    let jankerValue = 0;
+    let jankerLevel = "";
+
+    if (totalDifferences <= 4) {
+      jankerValue = 99;
+      jankerLevel = "tinggi sekali";
+    } else if (totalDifferences >= 5 && totalDifferences <= 8) {
+      jankerValue = 95;
+      jankerLevel = "tinggi";
+    } else if (totalDifferences >= 9 && totalDifferences <= 11) {
+      jankerValue = 90;
+      jankerLevel = "tinggi";
+    } else if (totalDifferences >= 12 && totalDifferences <= 15) {
+      jankerValue = 75;
+      jankerLevel = "sedang";
+    } else if (totalDifferences >= 16 && totalDifferences <= 18) {
+      jankerValue = 50;
+      jankerLevel = "sedang";
+    } else if (totalDifferences >= 19 && totalDifferences <= 20) {
+      jankerValue = 25;
+      jankerLevel = "rendah";
+    } else if (totalDifferences >= 21) {
+      jankerValue = 10;
+      jankerLevel = "rendah";
+    }
+    return `janker: ${jankerValue} (${jankerLevel})`;
+  };
+
+  const calculateHankerValue = () => {
+    let hankerValue = 0;
+    let hankerLevel = "";
+
+    if (gap >= 15) {
+      hankerValue = 10;
+      hankerLevel = "rendah";
+    } else if (gap === 13 || gap === 14) {
+      hankerValue = 25;
+      hankerLevel = "rendah";
+    } else if (gap === 11 || gap === 12) {
+      hankerValue = 50;
+      hankerLevel = "sedang";
+    } else if (gap === 9 || gap === 10) {
+      hankerValue = 75;
+      hankerLevel = "sedang";
+    } else if (gap === 7 || gap === 8) {
+      hankerValue = 90;
+      hankerLevel = "tinggi";
+    } else if (gap === 4 || gap === 5) {
+      hankerValue = 95;
+      hankerLevel = "tinggi";
+    } else if (gap <= 3) {
+      hankerValue = 99;
+      hankerLevel = "tinggi";
+    }
+    return `hanker: ${hankerValue} (${hankerLevel})`;
+  };
+
+  const calculatePankerValue = () => {
+    let pankerValue = 0;
+    let pankerLevel = "";
+
+    if (totalAnswered <= 20) {
+      pankerValue = 10;
+      pankerLevel = "rendah";
+    } else if (totalAnswered >= 21 && totalAnswered <= 31) {
+      pankerValue = 25;
+      pankerLevel = "rendah";
+    } else if (totalAnswered >= 31 && totalAnswered <= 41) {
+      pankerValue = 50;
+      pankerLevel = "sedang";
+    } else if (totalAnswered >= 50 && totalAnswered <= 78) {
+      pankerValue = 75;
+      pankerLevel = "sedang";
+    } else if (totalAnswered >= 79 && totalAnswered <= 89) {
+      pankerValue = 90;
+      pankerLevel = "tinggi";
+    } else if (totalAnswered >= 90 && totalAnswered <= 119) {
+      pankerValue = 95;
+      pankerLevel = "tinggi";
+    } else if (totalAnswered >= 120) {
+      pankerValue = 99;
+      pankerLevel = "tinggi sekali";
+    }
+    return `panker: ${pankerValue} (${pankerLevel})`;
+  };
+
+  const calculateTinkerValue = () => {
+    let tinkerValue = 0;
+    let tinkerLevel = "";
+
+    if (allWrong === 0) {
+      tinkerValue = 99;
+      tinkerLevel = "tinggi";
+    } else if (allWrong >= 1 && allWrong <= 2) {
+      tinkerValue = 95;
+      tinkerLevel = "tinggi";
+    } else if (allWrong >= 3 && allWrong <= 5) {
+      tinkerValue = 90;
+      tinkerLevel = "tinggi";
+    } else if (allWrong >= 6 && allWrong <= 11) {
+      tinkerValue = 75;
+      tinkerLevel = "sedang";
+    } else if (allWrong >= 12 && allWrong <= 22) {
+      tinkerValue = 50;
+      tinkerLevel = "sedang";
+    } else if (allWrong >= 23 && allWrong <= 30) {
+      tinkerValue = 25;
+      tinkerLevel = "rendah";
+    } else if (allWrong >= 31) {
+      tinkerValue = 10;
+      tinkerLevel = "rendah";
+    }
+
+    return `Tinker: ${tinkerValue} (${tinkerLevel})`;
   };
 
   return (
@@ -212,7 +572,15 @@ const Game = () => {
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-4 rounded-md">
             <p>Waktu telah habis!</p>
+            {allCorrect > 0 && <p>total benar: {allCorrect}</p>}
+            {allWrong > 0 && <p>total salah: {allWrong}</p>}
+            {allWrong > 0 && <p>{calculateTinkerValue()}</p>}
+            {allWrong > 0 && <p>{calculateJankerValue()}</p>}
+            {allWrong > 0 && <p>{calculatePankerValue()}</p>}
+            {allWrong > 0 && <p>{calculateHankerValue()}</p>}
+            <p>totalPlayed: {played}</p>
             <button onClick={handleResetTimer}>Save</button>
+            {/* <button onClick={() => console.log(totalDifferences)}>tes</button> */}
           </div>
         </div>
       )}
@@ -263,20 +631,20 @@ const Game = () => {
         </div>
         <div className="flex flex-col w-full">
           <ul className="w-full">
-            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+            {Array.from({ length: Math.ceil(randomNumbers2.length / 6) }).map(
               (_, rowIndex) => (
                 <li key={rowIndex} className="flex flex-col">
-                  {randomNumbers
+                  {randomNumbers2
                     .slice(rowIndex * 6, rowIndex * 6 + 6)
-                    .map((randomNumber, colIndex) => (
+                    .map((randomNumber2, colIndex) => (
                       <React.Fragment key={colIndex}>
-                        <span>{randomNumber}</span>
+                        <span>{randomNumber2}</span>
                         {colIndex < 5 && (
                           <input
                             type="text"
                             maxLength={1}
                             pattern="[0-9]"
-                            value={userInputs[rowIndex * 5 + colIndex]}
+                            value={userInputs2[rowIndex * 5 + colIndex]}
                             onChange={(e) => {
                               const inputValue = e.target.value;
                               if (/^[0-9]*$/.test(inputValue)) {
@@ -291,7 +659,7 @@ const Game = () => {
                             ref={(input) => {
                               if (
                                 input &&
-                                selectedInput === rowIndex * 5 + colIndex
+                                selectedInput2 === rowIndex * 5 + colIndex
                               ) {
                                 input.focus();
                               }
@@ -307,20 +675,20 @@ const Game = () => {
         </div>
         <div className="flex flex-col w-full">
           <ul className="w-full">
-            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+            {Array.from({ length: Math.ceil(randomNumbers3.length / 6) }).map(
               (_, rowIndex) => (
                 <li key={rowIndex} className="flex flex-col">
-                  {randomNumbers
+                  {randomNumbers3
                     .slice(rowIndex * 6, rowIndex * 6 + 6)
-                    .map((randomNumber, colIndex) => (
+                    .map((randomNumber3, colIndex) => (
                       <React.Fragment key={colIndex}>
-                        <span>{randomNumber}</span>
+                        <span>{randomNumber3}</span>
                         {colIndex < 5 && (
                           <input
                             type="text"
                             maxLength={1}
                             pattern="[0-9]"
-                            value={userInputs[rowIndex * 5 + colIndex]}
+                            value={userInputs3[rowIndex * 5 + colIndex]}
                             onChange={(e) => {
                               const inputValue = e.target.value;
                               if (/^[0-9]*$/.test(inputValue)) {
@@ -335,7 +703,7 @@ const Game = () => {
                             ref={(input) => {
                               if (
                                 input &&
-                                selectedInput === rowIndex * 5 + colIndex
+                                selectedInput3 === rowIndex * 5 + colIndex
                               ) {
                                 input.focus();
                               }
@@ -351,20 +719,20 @@ const Game = () => {
         </div>
         <div className="flex flex-col w-full">
           <ul className="w-full">
-            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+            {Array.from({ length: Math.ceil(randomNumbers4.length / 6) }).map(
               (_, rowIndex) => (
                 <li key={rowIndex} className="flex flex-col">
-                  {randomNumbers
+                  {randomNumbers4
                     .slice(rowIndex * 6, rowIndex * 6 + 6)
-                    .map((randomNumber, colIndex) => (
+                    .map((randomNumber4, colIndex) => (
                       <React.Fragment key={colIndex}>
-                        <span>{randomNumber}</span>
+                        <span>{randomNumber4}</span>
                         {colIndex < 5 && (
                           <input
                             type="text"
                             maxLength={1}
                             pattern="[0-9]"
-                            value={userInputs[rowIndex * 5 + colIndex]}
+                            value={userInputs4[rowIndex * 5 + colIndex]}
                             onChange={(e) => {
                               const inputValue = e.target.value;
                               if (/^[0-9]*$/.test(inputValue)) {
@@ -379,7 +747,7 @@ const Game = () => {
                             ref={(input) => {
                               if (
                                 input &&
-                                selectedInput === rowIndex * 5 + colIndex
+                                selectedInput4 === rowIndex * 5 + colIndex
                               ) {
                                 input.focus();
                               }
@@ -395,20 +763,20 @@ const Game = () => {
         </div>
         <div className="flex flex-col w-full">
           <ul className="w-full">
-            {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
+            {Array.from({ length: Math.ceil(randomNumbers5.length / 6) }).map(
               (_, rowIndex) => (
                 <li key={rowIndex} className="flex flex-col">
-                  {randomNumbers
+                  {randomNumbers5
                     .slice(rowIndex * 6, rowIndex * 6 + 6)
-                    .map((randomNumber, colIndex) => (
+                    .map((randomNumber5, colIndex) => (
                       <React.Fragment key={colIndex}>
-                        <span>{randomNumber}</span>
+                        <span>{randomNumber5}</span>
                         {colIndex < 5 && (
                           <input
                             type="text"
                             maxLength={1}
                             pattern="[0-9]"
-                            value={userInputs[rowIndex * 5 + colIndex]}
+                            value={userInputs5[rowIndex * 5 + colIndex]}
                             onChange={(e) => {
                               const inputValue = e.target.value;
                               if (/^[0-9]*$/.test(inputValue)) {
@@ -423,7 +791,7 @@ const Game = () => {
                             ref={(input) => {
                               if (
                                 input &&
-                                selectedInput === rowIndex * 5 + colIndex
+                                selectedInput5 === rowIndex * 5 + colIndex
                               ) {
                                 input.focus();
                               }
@@ -438,8 +806,9 @@ const Game = () => {
           </ul>
         </div>
       </Card>
-      {totalCorrectCount > 0 && <p>Total Benar: {totalCorrectCount}</p>}
-      {totalWrongCount > 0 && <p>Total Salah: {totalWrongCount}</p>}
+
+      {allWrong > 0 && <p>{calculateJankerValue()}</p>}
+
       <div className="flex justify-center">
         {startTimer ? (
           <button
@@ -450,7 +819,7 @@ const Game = () => {
           </button>
         ) : (
           <button
-            onClick={() => setStartTimer(true)}
+            onClick={() => playGame()}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Start
