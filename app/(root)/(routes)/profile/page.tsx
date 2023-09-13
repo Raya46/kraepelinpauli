@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { currentUser } from "@clerk/nextjs";
 import CardStats from "@/components/accountProfile/cardStats";
+import { getBestUserData } from "@/lib/actions/user.actions";
 
 async function ProfilePage() {
   const user = await currentUser();
@@ -17,7 +18,6 @@ async function ProfilePage() {
   const userInfo = {};
   const userDataAccount = {
     id: user?.id,
-    objectId: userInfo._id,
     username: user?.username,
     name: user?.firstName || "",
     image: user?.imageUrl,
@@ -26,7 +26,6 @@ async function ProfilePage() {
 
   const userDataStats = {
     id: user?.id,
-    objectId: userInfo._id,
     totalPlayed: userInfo?.totalPlayed || 0,
     accumulationTime: userInfo?.accumulationTime || 0,
     correct: userInfo?.correct || 0,
@@ -36,15 +35,16 @@ async function ProfilePage() {
     janker: userInfo?.janker || 0,
     hanker: userInfo?.hanker || 0,
   };
+
   return (
     <div className="container mx-auto flex flex-col gap-10">
       <AccountProfile userDataAccount={userDataAccount} />
-      <Card>
-        <div className="flex flex-col h-full w-full p-20">
+      <div className="flex w-full gap-6">
+        <Card className="flex flex-col w-1/2 justify-center items-center p-5">
           <ChartLine />
-        </div>
-      </Card>
-      <CardStats userDataStats={userDataStats} />
+        </Card>
+        <CardStats userDataStats={userDataStats} />
+      </div>
     </div>
   );
 }

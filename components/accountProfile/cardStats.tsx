@@ -11,53 +11,57 @@ interface Props {
     totalPlayed: number;
     accumulationTime: number;
     correct: number;
-    wrong: number;
-    panker: number;
-    tinker: number;
-    janker: number;
-    hanker: number;
+    wrong: string;
+    panker: string;
+    tinker: string;
+    janker: string;
+    hanker: string;
   };
 }
 
 const CardStats = ({ userDataStats }: Props) => {
   return (
-    <div className="flex flex-row w-full justify-between gap-4">
-      <Card className="p-6 w-full">
-        <div className="flex flex-row gap-4 justify-center">
-          <div className="flex flex-col gap-4 items-center">
-            <CardDescription>Kecepatan Kerja</CardDescription>
-            <CardTitle>{userDataStats?.panker}</CardTitle>
+    <div className="flex w-full gap-6">
+      <div className="flex flex-col gap-6">
+        <Card className="p-6 w-full">
+          <div className="flex gap-4 justify-center">
+            <div className="flex flex-col gap-4 items-center">
+              <CardDescription>Kecepatan Kerja</CardDescription>
+              <CardTitle>{userDataStats?.panker}</CardTitle>
+            </div>
+            <div className="flex flex-col gap-4 items-center">
+              <CardDescription>Ketelitian Kerja</CardDescription>
+              <CardTitle>{userDataStats?.tinker}</CardTitle>
+            </div>
           </div>
-          <div className="flex flex-col gap-4 items-center">
-            <CardDescription>Ketelitian Kerja</CardDescription>
-            <CardTitle>{userDataStats?.tinker}</CardTitle>
+        </Card>
+        <Card className="p-6 w-full">
+          <div className="flex gap-4 justify-center ">
+            <div className="flex flex-col gap-4 items-center">
+              <CardDescription>Keajegan Kerja</CardDescription>
+              <CardTitle>{userDataStats?.janker}</CardTitle>
+            </div>
+            <div className="flex flex-col gap-4 items-center">
+              <CardDescription>Ketelitian Kerja</CardDescription>
+              <CardTitle>{userDataStats?.hanker}</CardTitle>
+            </div>
           </div>
-        </div>
-      </Card>
-      <Card className="p-6 w-full">
-        <div className="flex flex-row gap-4 justify-center ">
-          <div className="flex flex-col gap-4 items-center">
-            <CardDescription>Total Benar</CardDescription>
-            <CardTitle>{userDataStats?.correct}</CardTitle>
+        </Card>
+      </div>
+      <div className="flex flex-col">
+        <Card className="p-6 w-full">
+          <div className="flex gap-4 justify-center">
+            <div className="flex flex-col gap-4 items-center">
+              <CardDescription>Total Benar</CardDescription>
+              <CardTitle>{userDataStats?.correct}</CardTitle>
+            </div>
+            <div className="flex flex-col gap-4 items-center">
+              <CardDescription>Total Salah</CardDescription>
+              <CardTitle>{userDataStats?.wrong}</CardTitle>
+            </div>
           </div>
-          <div className="flex flex-col gap-4 items-center">
-            <CardDescription>Total Salah</CardDescription>
-            <CardTitle>{userDataStats?.wrong}</CardTitle>
-          </div>
-        </div>
-      </Card>
-      <Card className="p-6 w-full">
-        <div className="flex flex-row gap-4 justify-center ">
-          <div className="flex flex-col gap-4 items-center">
-            <CardDescription>Keajegan Kerja</CardDescription>
-            <CardTitle>{userDataStats?.janker}</CardTitle>
-          </div>
-          <div className="flex flex-col gap-4 items-center">
-            <CardDescription>Ketelitian Kerja</CardDescription>
-            <CardTitle>{userDataStats?.hanker}</CardTitle>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 };

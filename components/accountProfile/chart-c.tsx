@@ -62,11 +62,7 @@ const ChartLine = () => {
       },
     },
   };
-  return (
-    <div>
-      <Line className="w-full h-full" data={data} options={options} />
-    </div>
-  );
+  return <Line data={data} options={options} />;
 };
 
 export default ChartLine;

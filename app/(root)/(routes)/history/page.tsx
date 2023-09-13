@@ -1,5 +1,3 @@
-"use client"
-
 import {
   Table,
   TableBody,
@@ -19,36 +17,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import ChartLine from "@/components/accountProfile/chart-c";
+import { currentUser } from "@clerk/nextjs";
+import { getGameData } from "@/lib/actions/game.action";
+import { getBestUserData } from "@/lib/actions/user.actions";
+import CardBestData from "@/components/history/bestData";
 
-const HistoryPage = () => {
+const HistoryPage = async () => {
+  const user = await currentUser();
+  if (!user) return null;
+
+  const gameData = await getGameData(user.id);
+  const bestUser = await getBestUserData(user.id);
   return (
-    <div className="container mx-auto">
-      <Card>
-        <CardHeader>
+    <div className="container mx-auto mt-5">
+      <div className="flex justify-center gap-10">
+        <Card className="flex flex-col w-1/2 justify-center items-center p-5">
           <ChartLine />
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col">
-            <div className="flex flex-row gap-2">
-              <CardDescription>total benar:</CardDescription>
-              <CardTitle>47</CardTitle>
-              <CardDescription>total salah:</CardDescription>
-              <CardTitle>1</CardTitle>
-            </div>
-            <div className="flex flex-col">
-              <CardDescription>Kecepatan Kerja (PANKER):</CardDescription>
-              <CardTitle> 60.0 (Sedang)</CardTitle>
-              <CardDescription>Ketelitian Kerja (TINKER):</CardDescription>
-              <CardTitle>95.0 (Tinggi Sekali)</CardTitle>
-              <CardDescription>Keajegan Kerja (JANKER):</CardDescription>
-              <CardTitle>95.0 (Tinggi Sekali)</CardTitle>
-              <CardDescription>Ketahanan Kerja (HANKER):</CardDescription>
-              <CardTitle>77.5 (Tinggi)</CardTitle>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Table className="mt-6">
+        </Card>
+        <CardBestData user={bestUser} />
+      </div>
+      <Table className="mt-10">
         <TableCaption>Load more your history.</TableCaption>
         <TableHeader>
           <TableRow>
@@ -63,84 +51,23 @@ const HistoryPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>47</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>60.0 (Sedang)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>77.5 (Tinggi)</TableCell>
-            <TableCell className="flex gap-2">
-              <span>chart</span>
-              <span>time</span>
-            </TableCell>
-            <TableCell>25 Oct 2022 15:57</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>47</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>60.0 (Sedang)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>77.5 (Tinggi)</TableCell>
-            <TableCell className="flex gap-2">
-              <span>chart</span>
-              <span>time</span>
-            </TableCell>
-            <TableCell>25 Oct 2022 15:57</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>47</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>60.0 (Sedang)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>77.5 (Tinggi)</TableCell>
-            <TableCell className="flex gap-2">
-              <span>chart</span>
-              <span>time</span>
-            </TableCell>
-            <TableCell>25 Oct 2022 15:57</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>47</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>60.0 (Sedang)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>77.5 (Tinggi)</TableCell>
-            <TableCell className="flex gap-2">
-              <span>chart</span>
-              <span>time</span>
-            </TableCell>
-            <TableCell>25 Oct 2022 15:57</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>47</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>60.0 (Sedang)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>77.5 (Tinggi)</TableCell>
-            <TableCell className="flex gap-2">
-              <span>chart</span>
-              <span>time</span>
-            </TableCell>
-            <TableCell>25 Oct 2022 15:57</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>47</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>60.0 (Sedang)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>95.0 (Tinggi sekali)</TableCell>
-            <TableCell>77.5 (Tinggi)</TableCell>
-            <TableCell className="flex gap-2">
-              <span>chart</span>
-              <span>time</span>
-            </TableCell>
-            <TableCell>25 Oct 2022 15:57</TableCell>
-          </TableRow>
+          {gameData.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>{item.correct}</TableCell>
+              <TableCell>{item.wrong}</TableCell>
+              <TableCell>{item.panker}</TableCell>
+              <TableCell>{item.tinker}</TableCell>
+              <TableCell>{item.janker}</TableCell>
+              <TableCell>{item.hanker}</TableCell>
+              <TableCell className="flex gap-2">
+                <span>chart</span>
+                <span>time</span>
+              </TableCell>
+              <TableCell>
+                {item.date} {item.time}
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

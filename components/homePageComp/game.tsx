@@ -5,25 +5,18 @@ import { updateUser } from "@/lib/actions/user.actions";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-// interface Props {
-//   game: {
-//     id: string;
-//     objectId: string;
-//     correct: number;
-//     wrong: number;
-//     totalPlayed: number;
-//     accumulationTime: number;
-//     panker: number;
-//     tinker: number;
-//     janker: number;
-//     hanker: number;
-//   };
-// }
+interface Props {
+  userDataAccount: {
+    id: string;
+    username: string;
+  };
+}
 
-const Game = () => {
+const Game = ({ userDataAccount }: Props) => {
   const [startTimer, setStartTimer] = useState(false);
-  let [played, setPlayed] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(30);
+  const [currentDate, setCurrentDate] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
+  const [timeRemaining, setTimeRemaining] = useState(10);
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
   const [randomNumbers2, setRandomNumbers2] = useState<number[]>([]);
   const [randomNumbers3, setRandomNumbers3] = useState<number[]>([]);
@@ -94,9 +87,10 @@ const Game = () => {
           if (prevTime === 0) {
             clearInterval(intervalNow as NodeJS.Timeout);
             if (iteration < 5) {
-              setIteration((prevIteration) => prevIteration + 1);
-              setTimeRemaining(30);
-              return 30; // Return the new value to satisfy the type
+              setIteration(iteration + 1);
+              console.log(iteration);
+              setTimeRemaining(10);
+              return 10; // Return the new value to satisfy the type
             } else {
               setShowModal(true);
               return prevTime; // Return the same value to satisfy the type
@@ -125,6 +119,15 @@ const Game = () => {
     setRandomNumbers3(newRandomNumbers3);
     setRandomNumbers4(newRandomNumbers4);
     setRandomNumbers5(newRandomNumbers5);
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const time = date.toLocaleTimeString();
+    setCurrentDate(formattedDate);
+    setCurrentTime(time);
   }, []);
 
   useEffect(() => {
@@ -313,77 +316,28 @@ const Game = () => {
       const updatedInputs = [...userInputs];
       updatedInputs[index] = value;
       setUserInputs(updatedInputs);
-    } else if (iteration <= 2) {
+    } else if (iteration === 2) {
       const updatedInputs2 = [...userInputs2];
       updatedInputs2[index] = value;
       setUserInputs2(updatedInputs2);
-    } else if (iteration <= 3) {
+    } else if (iteration === 3) {
       const updatedInputs3 = [...userInputs3];
       updatedInputs3[index] = value;
       setUserInputs3(updatedInputs3);
-    } else if (iteration <= 4) {
+    } else if (iteration === 4) {
       const updatedInputs4 = [...userInputs4];
       updatedInputs4[index] = value;
       setUserInputs4(updatedInputs4);
-    } else if (iteration <= 5) {
+    } else if (iteration === 5) {
       const updatedInputs5 = [...userInputs5];
       updatedInputs5[index] = value;
       setUserInputs5(updatedInputs5);
     }
   };
 
-  const playGame = () => {
-    setPlayed(played + 1);
-    setStartTimer(true);
-    console.log(played);
-  };
-
-  const handleResetTimer = async () => {
-    // await updateUser({
-    //   userId: user.id,
-    //   username: user.username,
-    //   correct: allCorrect,
-    //   wrong: allWrong,
-    //   totalPlayed: played,
-    //   accumulationTime: timeRemaining ++30,
-    //   panker: calculatePankerValue,
-    //   tinker: calculateTinkerValue,
-    //   janker: calculateJankerValue,
-    //   hanker: calculateHankerValue,
-    //   path: pathname,
-    // });
-    // if (pathname === "/") {
-    //   router.back();
-    // } else {
-    //   router.push("/");
-    // }
-    setTotalCorrectCount(0);
-    setTotalCorrectCount2(0);
-    setTotalCorrectCount3(0);
-    setTotalCorrectCount4(0);
-    setTotalCorrectCount5(0);
-    setTotalWrongCount(0);
-    setTotalWrongCount2(0);
-    setTotalWrongCount3(0);
-    setTotalWrongCount4(0);
-    setTotalWrongCount5(0);
-    setResults(Array(5).fill(false));
-    setResults2(Array(5).fill(false));
-    setResults3(Array(5).fill(false));
-    setResults4(Array(5).fill(false));
-    setResults5(Array(5).fill(false));
-    setUserInputs(Array(5).fill(""));
-    setUserInputs2(Array(5).fill(""));
-    setUserInputs3(Array(5).fill(""));
-    setUserInputs4(Array(5).fill(""));
-    setUserInputs5(Array(5).fill(""));
-    setShowModal(false);
-    setIteration(1);
-    setStartTimer(false);
-    setTimerFinished(false);
-    clearInterval(intervalNow as NodeJS.Timeout);
-    setTimeRemaining(30);
-  };
+  // const jankerToDB = calculateJankerValue();
+  // const pankerToDB = calculatePankerValue();
+  // const hankerToDB = calculateHankerValue();
 
   const formatTime = (timeInSeconds: number) => {
     const seconds = timeInSeconds;
@@ -470,9 +424,12 @@ const Game = () => {
       jankerLevel = "rendah";
     } else if (totalDifferences >= 21) {
       jankerValue = 10;
-      jankerLevel = "rendah";
+      jankerLevel = "sangat rendah";
+    } else {
+      jankerValue = 0;
+      jankerLevel = "sangat rendah";
     }
-    return `janker: ${jankerValue} (${jankerLevel})`;
+    return ` ${jankerValue} (${jankerLevel})`;
   };
 
   const calculateHankerValue = () => {
@@ -500,8 +457,11 @@ const Game = () => {
     } else if (gap <= 3) {
       hankerValue = 99;
       hankerLevel = "tinggi";
+    } else {
+      hankerValue = 0;
+      hankerLevel = "sangat rendah";
     }
-    return `hanker: ${hankerValue} (${hankerLevel})`;
+    return `${hankerValue} (${hankerLevel})`;
   };
 
   const calculatePankerValue = () => {
@@ -529,8 +489,11 @@ const Game = () => {
     } else if (totalAnswered >= 120) {
       pankerValue = 99;
       pankerLevel = "tinggi sekali";
+    } else {
+      pankerValue = 0;
+      pankerLevel = "sangat rendah";
     }
-    return `panker: ${pankerValue} (${pankerLevel})`;
+    return `${pankerValue} (${pankerLevel})`;
   };
 
   const calculateTinkerValue = () => {
@@ -558,9 +521,70 @@ const Game = () => {
     } else if (allWrong >= 31) {
       tinkerValue = 10;
       tinkerLevel = "rendah";
+    } else {
+      tinkerValue = 0;
+      tinkerLevel = "sangat rendah";
     }
 
-    return `Tinker: ${tinkerValue} (${tinkerLevel})`;
+    return `${tinkerValue} (${tinkerLevel})`;
+  };
+
+  const jankerValue = calculateJankerValue();
+  const pankerValue = calculatePankerValue();
+  const hankerValue = calculateHankerValue();
+  const tinkerValue = calculateTinkerValue();
+
+  const handleUpdateUser = async () => {
+    console.log(pankerValue);
+    await updateUser({
+      id: userDataAccount.id,
+      username: userDataAccount.username,
+      correct: allCorrect,
+      wrong: allWrong,
+      totalPlayed: 1,
+      accumulationTime: 30,
+      panker: pankerValue,
+      tinker: tinkerValue,
+      janker: jankerValue,
+      hanker: hankerValue,
+      path: pathname,
+      date: currentDate,
+      time: currentTime,
+    });
+    if (pathname === "/") {
+      router.push("/");
+    }
+    console.log("success update data user");
+  };
+
+  const handleResetTimer = async () => {
+    handleUpdateUser();
+    setTotalCorrectCount(0);
+    setTotalCorrectCount2(0);
+    setTotalCorrectCount3(0);
+    setTotalCorrectCount4(0);
+    setTotalCorrectCount5(0);
+    setTotalWrongCount(0);
+    setTotalWrongCount2(0);
+    setTotalWrongCount3(0);
+    setTotalWrongCount4(0);
+    setTotalWrongCount5(0);
+    setResults(Array(5).fill(false));
+    setResults2(Array(5).fill(false));
+    setResults3(Array(5).fill(false));
+    setResults4(Array(5).fill(false));
+    setResults5(Array(5).fill(false));
+    setUserInputs(Array(5).fill(""));
+    setUserInputs2(Array(5).fill(""));
+    setUserInputs3(Array(5).fill(""));
+    setUserInputs4(Array(5).fill(""));
+    setUserInputs5(Array(5).fill(""));
+    setShowModal(false);
+    setIteration(1);
+    setStartTimer(false);
+    setTimerFinished(false);
+    clearInterval(intervalNow as NodeJS.Timeout);
+    setTimeRemaining(10);
   };
 
   return (
@@ -574,11 +598,10 @@ const Game = () => {
             <p>Waktu telah habis!</p>
             {allCorrect > 0 && <p>total benar: {allCorrect}</p>}
             {allWrong > 0 && <p>total salah: {allWrong}</p>}
-            {allWrong > 0 && <p>{calculateTinkerValue()}</p>}
-            {allWrong > 0 && <p>{calculateJankerValue()}</p>}
-            {allWrong > 0 && <p>{calculatePankerValue()}</p>}
-            {allWrong > 0 && <p>{calculateHankerValue()}</p>}
-            <p>totalPlayed: {played}</p>
+            {allWrong > 0 && <p>Tinker: {calculateTinkerValue()}</p>}
+            {allWrong > 0 && <p>Janker: {calculateJankerValue()}</p>}
+            {allWrong > 0 && <p>Panker: {calculatePankerValue()}</p>}
+            {allWrong > 0 && <p>Hanker: {calculateHankerValue()}</p>}
             <button onClick={handleResetTimer}>Save</button>
             {/* <button onClick={() => console.log(totalDifferences)}>tes</button> */}
           </div>
@@ -808,8 +831,12 @@ const Game = () => {
       </Card>
 
       {allWrong > 0 && <p>{calculateJankerValue()}</p>}
+      <button onClick={handleUpdateUser}>tes</button>
+      <p>{currentDate}</p>
+      <p>{currentTime}</p>
 
       <div className="flex justify-center">
+        {/* <button onClick={handleResetTimer}>Save</button> */}
         {startTimer ? (
           <button
             onClick={handleResetTimer}
@@ -819,7 +846,7 @@ const Game = () => {
           </button>
         ) : (
           <button
-            onClick={() => playGame()}
+            onClick={() => setStartTimer(true)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Start
