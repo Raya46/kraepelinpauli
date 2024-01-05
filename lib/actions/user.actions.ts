@@ -19,6 +19,15 @@ interface Params {
   time: string;
 }
 
+interface DetailData {
+  correct: number;
+  wrong: number;
+  panker: number;
+  tinker: number;
+  janker: number;
+  hanker: number;
+}
+
 export async function updateUser({
   id,
   gameId,
@@ -94,15 +103,6 @@ export async function getDetailData(gameId: number) {
   }
 }
 
-interface DetailData {
-  correct: number;
-  wrong: number;
-  panker: number;
-  tinker: number;
-  janker: number;
-  hanker: number;
-}
-
 export async function dataForChartDetail(
   gameId: number
 ): Promise<DetailData | null> {
@@ -111,7 +111,6 @@ export async function dataForChartDetail(
     const detailUser = await User.findOne({ gameId: gameId });
 
     if (!detailUser) {
-      // Handle the case where no user is found
       return null;
     }
 

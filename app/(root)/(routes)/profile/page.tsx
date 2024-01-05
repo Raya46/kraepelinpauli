@@ -3,12 +3,13 @@ import ChartLine from "@/components/accountProfile/chart-c";
 import { Card } from "@/components/ui/card";
 import { currentUser } from "@clerk/nextjs";
 import CardStats from "@/components/accountProfile/cardStats";
-import { getBestUserData } from "@/lib/actions/user.actions";
+import { dataForChart, getBestUserData } from "@/lib/actions/user.actions";
 
 async function ProfilePage() {
   const user = await currentUser();
   if (!user) return null;
 
+  const bestDataChart = await dataForChart(user.id);
   const bestUser = await getBestUserData(user.id);
   const userDataAccount = {
     id: user?.id,
@@ -22,7 +23,7 @@ async function ProfilePage() {
     <div className="container mx-auto flex flex-col gap-10">
       <div className="flex w-full gap-6 mt-10">
         <Card className="flex flex-col w-full justify-center items-center p-5">
-          <ChartLine dataGame={bestUser} />
+          <ChartLine dataGame={bestDataChart} />
         </Card>
         <CardStats userDataStats={bestUser} />
       </div>
