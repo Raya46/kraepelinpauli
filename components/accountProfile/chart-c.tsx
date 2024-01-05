@@ -25,12 +25,26 @@ ChartJS.register(
   Filler
 );
 
-const ChartLine = () => {
+interface Props {
+  dataGame: {
+    allWrong: number;
+    allCorrect: number;
+    pankerValue: number;
+    tinkerValue: number;
+    jankerValue: number;
+    hankerValue: number;
+  } | null;
+}
+
+const ChartLine = ({ dataGame }: Props) => {
+  if (!dataGame) {
+    return <div>Data not available</div>;
+  }
   const data = {
-    labels: ["january", "february", "march", "april", "may", "june"],
+    labels: [],
     datasets: [
       {
-        data: [0.1, 0.4, 0.2, 0.3, 0.7, 0.4, 0.6],
+        data: dataGame,
       },
     ],
   };

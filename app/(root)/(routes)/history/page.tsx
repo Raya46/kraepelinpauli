@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/card";
 import ChartLine from "@/components/accountProfile/chart-c";
 import { currentUser } from "@clerk/nextjs";
 import { getGameData } from "@/lib/actions/game.action";
-import { getBestUserData } from "@/lib/actions/user.actions";
+import { dataForChart, getBestUserData } from "@/lib/actions/user.actions";
 import CardBestData from "@/components/history/bestData";
 import TableData from "@/components/history/tableData";
 
@@ -21,11 +21,12 @@ const HistoryPage = async () => {
 
   const gameData = await getGameData(user.id);
   const bestUser = await getBestUserData(user.id);
+  const dataChart = await dataForChart(user.id);
   return (
     <div className="container mx-auto mt-5">
       <div className="flex justify-center gap-10">
         <Card className="flex flex-col w-1/2 justify-center items-center p-5">
-          <ChartLine />
+          <ChartLine dataGame={dataChart} />
         </Card>
         <CardBestData user={bestUser} />
       </div>

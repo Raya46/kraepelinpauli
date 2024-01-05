@@ -29,7 +29,7 @@ async function ProfilePage() {
     <div className="container mx-auto flex flex-col gap-10">
       <div className="flex w-full gap-6 mt-10">
         <Card className="flex flex-col w-full justify-center items-center p-5">
-          <ChartLine />
+          <ChartLine dataGame={bestUser} />
         </Card>
         <CardStats userDataStats={bestUser} />
       </div>

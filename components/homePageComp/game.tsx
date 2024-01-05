@@ -399,131 +399,95 @@ const Game = ({ userDataAccount }: Props) => {
 
   const calculateJankerValue = () => {
     let jankerValue = 0;
-    let jankerLevel = "";
 
     if (totalDifferences <= 4) {
       jankerValue = 99;
-      jankerLevel = "tinggi sekali";
     } else if (totalDifferences >= 5 && totalDifferences <= 8) {
       jankerValue = 95;
-      jankerLevel = "tinggi";
     } else if (totalDifferences >= 9 && totalDifferences <= 11) {
       jankerValue = 90;
-      jankerLevel = "tinggi";
     } else if (totalDifferences >= 12 && totalDifferences <= 15) {
       jankerValue = 75;
-      jankerLevel = "sedang";
     } else if (totalDifferences >= 16 && totalDifferences <= 18) {
       jankerValue = 50;
-      jankerLevel = "sedang";
     } else if (totalDifferences >= 19 && totalDifferences <= 20) {
       jankerValue = 25;
-      jankerLevel = "rendah";
     } else if (totalDifferences >= 21) {
       jankerValue = 10;
-      jankerLevel = "sangat rendah";
     } else {
       jankerValue = 0;
-      jankerLevel = "sangat rendah";
     }
-    return ` ${jankerValue} (${jankerLevel})`;
+    return jankerValue;
   };
 
   const calculateHankerValue = () => {
     let hankerValue = 0;
-    let hankerLevel = "";
 
     if (gap >= 15) {
       hankerValue = 10;
-      hankerLevel = "rendah";
     } else if (gap === 13 || gap === 14) {
       hankerValue = 25;
-      hankerLevel = "rendah";
     } else if (gap === 11 || gap === 12) {
       hankerValue = 50;
-      hankerLevel = "sedang";
     } else if (gap === 9 || gap === 10) {
       hankerValue = 75;
-      hankerLevel = "sedang";
     } else if (gap === 7 || gap === 8) {
       hankerValue = 90;
-      hankerLevel = "tinggi";
     } else if (gap === 4 || gap === 5) {
       hankerValue = 95;
-      hankerLevel = "tinggi";
     } else if (gap <= 3) {
       hankerValue = 99;
-      hankerLevel = "tinggi";
     } else {
       hankerValue = 0;
-      hankerLevel = "sangat rendah";
     }
-    return `${hankerValue} (${hankerLevel})`;
+    return hankerValue;
   };
 
   const calculatePankerValue = () => {
     let pankerValue = 0;
-    let pankerLevel = "";
 
     if (totalAnswered <= 20) {
       pankerValue = 10;
-      pankerLevel = "rendah";
     } else if (totalAnswered >= 21 && totalAnswered <= 31) {
       pankerValue = 25;
-      pankerLevel = "rendah";
     } else if (totalAnswered >= 31 && totalAnswered <= 41) {
       pankerValue = 50;
-      pankerLevel = "sedang";
     } else if (totalAnswered >= 50 && totalAnswered <= 78) {
       pankerValue = 75;
-      pankerLevel = "sedang";
     } else if (totalAnswered >= 79 && totalAnswered <= 89) {
       pankerValue = 90;
-      pankerLevel = "tinggi";
     } else if (totalAnswered >= 90 && totalAnswered <= 119) {
       pankerValue = 95;
-      pankerLevel = "tinggi";
     } else if (totalAnswered >= 120) {
       pankerValue = 99;
-      pankerLevel = "tinggi sekali";
     } else {
       pankerValue = 99;
-      pankerLevel = "tinggi sekali";
     }
-    return `${pankerValue} (${pankerLevel})`;
+    return pankerValue;
   };
 
   const calculateTinkerValue = () => {
     let tinkerValue = 0;
-    let tinkerLevel = "";
 
     if (allWrong === 0) {
       tinkerValue = 99;
-      tinkerLevel = "tinggi";
     } else if (allWrong >= 1 && allWrong <= 2) {
       tinkerValue = 95;
-      tinkerLevel = "tinggi";
     } else if (allWrong >= 3 && allWrong <= 5) {
       tinkerValue = 90;
-      tinkerLevel = "tinggi";
     } else if (allWrong >= 6 && allWrong <= 11) {
       tinkerValue = 75;
-      tinkerLevel = "sedang";
     } else if (allWrong >= 12 && allWrong <= 22) {
       tinkerValue = 50;
-      tinkerLevel = "sedang";
     } else if (allWrong >= 23 && allWrong <= 30) {
       tinkerValue = 25;
-      tinkerLevel = "rendah";
     } else if (allWrong >= 31) {
       tinkerValue = 10;
-      tinkerLevel = "rendah";
     } else {
       tinkerValue = 0;
-      tinkerLevel = "sangat rendah";
     }
 
-    return `${tinkerValue} (${tinkerLevel})`;
+    return tinkerValue;
   };
 
   const jankerValue = calculateJankerValue();
@@ -598,6 +562,7 @@ const Game = ({ userDataAccount }: Props) => {
             {allWrong > 0 && <p>Panker: {calculatePankerValue()}</p>}
             {allWrong > 0 && <p>Hanker: {calculateHankerValue()}</p>}
             <button onClick={handleResetTimer}>Save</button>
+            <button onClick={() => router.push("/")}>Close</button>
           </div>
         </div>
       )}
@@ -827,7 +792,6 @@ const Game = ({ userDataAccount }: Props) => {
       {allWrong > 0 && <p>{calculateJankerValue()}</p>}
 
       <div className="flex justify-center">
-        <button onClick={handleUpdateUser}>Save</button>
         {startTimer ? (
           <button
             onClick={handleResetTimer}
