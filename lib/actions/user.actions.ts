@@ -5,9 +5,9 @@ import { connectToDB } from "../mongoose";
 import { revalidatePath } from "next/cache";
 
 interface Params {
-  id: string;
+  id: string | undefined;
   gameId: number;
-  username: string;
+  username: string | null | undefined;
   correct: number;
   wrong: number;
   panker: string;

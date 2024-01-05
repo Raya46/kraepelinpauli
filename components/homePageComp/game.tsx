@@ -7,8 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 interface Props {
   userDataAccount: {
-    id: string | null;
-    username: string | null;
+    id: string | undefined;
+    username: string | null | undefined;
   };
 }
 
