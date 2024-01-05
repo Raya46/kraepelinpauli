@@ -27,12 +27,12 @@ ChartJS.register(
 
 interface Props {
   dataGame: {
-    allWrong: number;
-    allCorrect: number;
-    pankerValue: number;
-    tinkerValue: number;
-    jankerValue: number;
-    hankerValue: number;
+    correct: number;
+    wrong: number;
+    panker: number;
+    tinker: number;
+    janker: number;
+    hanker: number;
   } | null;
 }
 

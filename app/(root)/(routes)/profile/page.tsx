@@ -1,13 +1,6 @@
 import AccountProfile from "@/components/accountProfile/page";
 import ChartLine from "@/components/accountProfile/chart-c";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { currentUser } from "@clerk/nextjs";
 import CardStats from "@/components/accountProfile/cardStats";
 import { getBestUserData } from "@/lib/actions/user.actions";

@@ -352,6 +352,7 @@ const Game = ({ userDataAccount }: Props) => {
     totalCorrectCount3 +
     totalCorrectCount4 +
     totalCorrectCount5;
+
   const allWrong =
     totalWrongCount +
     totalWrongCount2 +

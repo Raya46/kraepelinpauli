@@ -95,12 +95,12 @@ export async function getDetailData(gameId: number) {
 }
 
 interface DetailData {
-  correct: string;
-  wrong: string;
-  panker: string;
-  tinker: string;
-  janker: string;
-  hanker: string;
+  correct: number;
+  wrong: number;
+  panker: number;
+  tinker: number;
+  janker: number;
+  hanker: number;
 }
 
 export async function dataForChartDetail(
@@ -117,12 +117,12 @@ export async function dataForChartDetail(
 
     const { correct, wrong, panker, tinker, janker, hanker } = detailUser;
     const extractedData: DetailData = {
-      correct: String(correct),
-      wrong: String(wrong),
-      panker: String(panker),
-      tinker: String(tinker),
-      janker: String(janker),
-      hanker: String(hanker),
+      correct: Number(correct),
+      wrong: Number(wrong),
+      panker: Number(panker),
+      tinker: Number(tinker),
+      janker: Number(janker),
+      hanker: Number(hanker),
     };
 
     return extractedData;
@@ -132,7 +132,7 @@ export async function dataForChartDetail(
   }
 }
 
-export async function dataForChart(id: string) {
+export async function dataForChart(id: string): Promise<DetailData | null> {
   connectToDB();
   try {
     const bestUser = await User.find({ id: id })
@@ -148,23 +148,23 @@ export async function dataForChart(id: string) {
 
     if (bestUser.length === 0) {
       return {
-        allWrong: 0,
-        allCorrect: 0,
-        pankerValue: 0,
-        tinkerValue: 0,
-        jankerValue: 0,
-        hankerValue: 0,
+        wrong: 0,
+        correct: 0,
+        panker: 0,
+        tinker: 0,
+        janker: 0,
+        hanker: 0,
       };
     }
 
     const { correct, wrong, panker, tinker, janker, hanker } = bestUser[0];
-    const jsonData = {
-      wrong: wrong,
-      correct: correct,
-      panker: panker,
-      tinker: tinker,
-      janker: janker,
-      hanker: hanker,
+    const jsonData: DetailData = {
+      wrong: Number(wrong),
+      correct: Number(correct),
+      panker: Number(panker),
+      tinker: Number(tinker),
+      janker: Number(janker),
+      hanker: Number(hanker),
     };
 
     console.log(jsonData);
