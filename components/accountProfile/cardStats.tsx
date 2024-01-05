@@ -6,6 +6,7 @@ import { CardTitle } from "@/components/ui/card";
 
 interface Props {
   userDataStats: {
+    
     id: string;
     objectId: string;
     totalPlayed: number;
@@ -22,7 +23,7 @@ interface Props {
 const CardStats = ({ userDataStats }: Props) => {
   return (
     <div className="flex w-full gap-6">
-      <div className="flex flex-col gap-6">
+      <div className="flex w-full flex-col gap-6">
         <Card className="p-6 w-full">
           <div className="flex gap-4 justify-center">
             <div className="flex flex-col gap-4 items-center">
@@ -47,8 +48,6 @@ const CardStats = ({ userDataStats }: Props) => {
             </div>
           </div>
         </Card>
-      </div>
-      <div className="flex flex-col">
         <Card className="p-6 w-full">
           <div className="flex gap-4 justify-center">
             <div className="flex flex-col gap-4 items-center">

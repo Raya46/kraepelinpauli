@@ -2,11 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   id: { type: String, required: true },
+  gameId: { type: Number, required: true },
   username: { type: String, required: true },
   correct: { type: String, required: true },
   wrong: { type: String, required: true },
-  totalPlayed: { type: String, required: true },
-  accumulationTime: { type: String, required: true },
   panker: { type: String, required: true },
   tinker: { type: String, required: true },
   janker: { type: String, required: true },

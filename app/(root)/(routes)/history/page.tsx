@@ -2,25 +2,18 @@ import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import ChartLine from "@/components/accountProfile/chart-c";
 import { currentUser } from "@clerk/nextjs";
 import { getGameData } from "@/lib/actions/game.action";
 import { getBestUserData } from "@/lib/actions/user.actions";
 import CardBestData from "@/components/history/bestData";
+import TableData from "@/components/history/tableData";
 
 const HistoryPage = async () => {
   const user = await currentUser();
@@ -46,27 +39,12 @@ const HistoryPage = async () => {
             <TableHead>Ketelitian</TableHead>
             <TableHead>Keajegan</TableHead>
             <TableHead>Ketahanan</TableHead>
-            <TableHead>More</TableHead>
             <TableHead>Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {gameData.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{item.correct}</TableCell>
-              <TableCell>{item.wrong}</TableCell>
-              <TableCell>{item.panker}</TableCell>
-              <TableCell>{item.tinker}</TableCell>
-              <TableCell>{item.janker}</TableCell>
-              <TableCell>{item.hanker}</TableCell>
-              <TableCell className="flex gap-2">
-                <span>chart</span>
-                <span>time</span>
-              </TableCell>
-              <TableCell>
-                {item.date} {item.time}
-              </TableCell>
-            </TableRow>
+            <TableData key={index} dataTable={item} gameId={item.gameId} />
           ))}
         </TableBody>
       </Table>

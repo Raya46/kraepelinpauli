@@ -7,8 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 interface Props {
   userDataAccount: {
-    id: string;
-    username: string;
+    id: string | null;
+    username: string | null;
   };
 }
 
@@ -335,10 +335,6 @@ const Game = ({ userDataAccount }: Props) => {
     }
   };
 
-  // const jankerToDB = calculateJankerValue();
-  // const pankerToDB = calculatePankerValue();
-  // const hankerToDB = calculateHankerValue();
-
   const formatTime = (timeInSeconds: number) => {
     const seconds = timeInSeconds;
     return `00:${seconds.toString().padStart(2, "0")}`;
@@ -347,6 +343,8 @@ const Game = ({ userDataAccount }: Props) => {
   const getRandomNumber = () => {
     return Math.floor(Math.random() * 10);
   };
+
+  let gameId = 1;
 
   const allCorrect =
     totalCorrectCount +
@@ -390,7 +388,6 @@ const Game = ({ userDataAccount }: Props) => {
       const difference = Math.abs(answered[i] - answered[i + 1]);
       differences.push(difference);
     }
-    // console.log(differences);
     return differences;
   };
 
@@ -490,8 +487,8 @@ const Game = ({ userDataAccount }: Props) => {
       pankerValue = 99;
       pankerLevel = "tinggi sekali";
     } else {
-      pankerValue = 0;
-      pankerLevel = "sangat rendah";
+      pankerValue = 99;
+      pankerLevel = "tinggi sekali";
     }
     return `${pankerValue} (${pankerLevel})`;
   };
@@ -535,14 +532,12 @@ const Game = ({ userDataAccount }: Props) => {
   const tinkerValue = calculateTinkerValue();
 
   const handleUpdateUser = async () => {
-    console.log(pankerValue);
     await updateUser({
       id: userDataAccount.id,
+      gameId: gameId,
       username: userDataAccount.username,
       correct: allCorrect,
       wrong: allWrong,
-      totalPlayed: 1,
-      accumulationTime: 30,
       panker: pankerValue,
       tinker: tinkerValue,
       janker: jankerValue,
@@ -603,7 +598,6 @@ const Game = ({ userDataAccount }: Props) => {
             {allWrong > 0 && <p>Panker: {calculatePankerValue()}</p>}
             {allWrong > 0 && <p>Hanker: {calculateHankerValue()}</p>}
             <button onClick={handleResetTimer}>Save</button>
-            {/* <button onClick={() => console.log(totalDifferences)}>tes</button> */}
           </div>
         </div>
       )}
@@ -831,12 +825,9 @@ const Game = ({ userDataAccount }: Props) => {
       </Card>
 
       {allWrong > 0 && <p>{calculateJankerValue()}</p>}
-      <button onClick={handleUpdateUser}>tes</button>
-      <p>{currentDate}</p>
-      <p>{currentTime}</p>
 
       <div className="flex justify-center">
-        {/* <button onClick={handleResetTimer}>Save</button> */}
+        <button onClick={handleUpdateUser}>Save</button>
         {startTimer ? (
           <button
             onClick={handleResetTimer}

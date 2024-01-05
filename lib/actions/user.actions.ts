@@ -6,11 +6,10 @@ import { revalidatePath } from "next/cache";
 
 interface Params {
   id: string;
+  gameId: number;
   username: string;
   correct: number;
   wrong: number;
-  totalPlayed: number;
-  accumulationTime: number;
   panker: string;
   tinker: string;
   janker: string;
@@ -22,11 +21,10 @@ interface Params {
 
 export async function updateUser({
   id,
+  gameId,
   username,
   correct,
   wrong,
-  totalPlayed,
-  accumulationTime,
   panker,
   tinker,
   janker,
@@ -36,15 +34,16 @@ export async function updateUser({
   time,
 }: Params): Promise<void> {
   connectToDB();
+  const latestUser = await User.findOne({}, { gameId: 1 }).sort({ gameId: -1 });
+  const newGameId = latestUser ? latestUser.gameId + 1 : 1;
 
   try {
     await User.create({
       id,
+      gameId: newGameId,
       username,
       correct,
       wrong,
-      totalPlayed,
-      accumulationTime,
       panker,
       tinker,
       janker,
@@ -81,5 +80,15 @@ export async function getBestUserData(id: string) {
     return jsonData[0];
   } catch (error) {
     throw new Error(`Gagal mengambil data: ${error}`);
+  }
+}
+
+export async function getDetailData(gameId: number) {
+  connectToDB();
+  try {
+    const detailUser = await User.findOne({ gameId: gameId });
+    return JSON.parse(JSON.stringify(detailUser));
+  } catch (error) {
+    console.log(error);
   }
 }

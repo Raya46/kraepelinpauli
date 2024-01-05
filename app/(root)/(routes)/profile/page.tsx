@@ -14,8 +14,9 @@ import { getBestUserData } from "@/lib/actions/user.actions";
 
 async function ProfilePage() {
   const user = await currentUser();
+  if (!user) return null;
 
-  const userInfo = {};
+  const bestUser = await getBestUserData(user.id);
   const userDataAccount = {
     id: user?.id,
     username: user?.username,
@@ -24,27 +25,15 @@ async function ProfilePage() {
     createdAt: user?.createdAt || 0,
   };
 
-  const userDataStats = {
-    id: user?.id,
-    totalPlayed: userInfo?.totalPlayed || 0,
-    accumulationTime: userInfo?.accumulationTime || 0,
-    correct: userInfo?.correct || 0,
-    wrong: userInfo?.wrong || 0,
-    panker: userInfo?.panker || 0,
-    tinker: userInfo?.tinker || 0,
-    janker: userInfo?.janker || 0,
-    hanker: userInfo?.hanker || 0,
-  };
-
   return (
     <div className="container mx-auto flex flex-col gap-10">
-      <AccountProfile userDataAccount={userDataAccount} />
-      <div className="flex w-full gap-6">
-        <Card className="flex flex-col w-1/2 justify-center items-center p-5">
+      <div className="flex w-full gap-6 mt-10">
+        <Card className="flex flex-col w-full justify-center items-center p-5">
           <ChartLine />
         </Card>
-        <CardStats userDataStats={userDataStats} />
+        <CardStats userDataStats={bestUser} />
       </div>
+      <AccountProfile userDataAccount={userDataAccount} />
     </div>
   );
 }
