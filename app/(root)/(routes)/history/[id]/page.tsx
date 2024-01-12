@@ -18,12 +18,12 @@ export default async function Page({ params }: pageProps) {
   return (
     <div className="container mx-auto">
       <div className="flex flex-col">
-        <div className="flex w-full items-center justify-center mt-7">
-          <Card className="flex w-1/2 justify-center items-center p-5">
+        <div className="w-full items-center justify-center mt-7 flex sm:flex-col md:flex-col lg:flex-row">
+          <Card className="w-1/2 justify-center items-center p-5 flex sm:flex-col md:flex-col lg:flex-row">
             <ChartLine dataGame={dataChartDetail} />
           </Card>
         </div>
-        <div className="flex mt-7">
+        <div className="mt-7 flex sm:flex-col md:flex-col lg:flex-row">
           <CardDetailData user={detailUser} />
         </div>
         <Link href="/history">back</Link>

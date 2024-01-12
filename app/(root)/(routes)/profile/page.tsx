@@ -20,8 +20,8 @@ async function ProfilePage() {
   };
 
   return (
-    <div className="container mx-auto flex flex-col gap-10">
-      <div className="flex w-full gap-6 mt-10">
+    <div className="container mx-auto flex flex-col gap-10 w-full">
+      <div className="gap-6 mt-10 w-full flex md:flex-col sm:flex-col lg:flex-row">
         <Card className="flex flex-col w-full justify-center items-center p-5">
           <ChartLine dataGame={bestDataChart} />
         </Card>

@@ -6,7 +6,6 @@ import { CardTitle } from "@/components/ui/card";
 
 interface Props {
   userDataStats: {
-    
     id: string;
     objectId: string;
     totalPlayed: number;

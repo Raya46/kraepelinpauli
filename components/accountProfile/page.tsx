@@ -23,7 +23,7 @@ const AccountProfile = ({ userDataAccount }: Props) => {
   const timestamp = userDataAccount?.createdAt;
   const date = new Date(timestamp);
   return (
-    <Card>
+    <Card className="mb-6">
       <div className="flex justify-between p-6">
         <div className="flex w-1/2 items-center gap-4 ">
           <img

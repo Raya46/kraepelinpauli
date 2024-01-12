@@ -1,10 +1,11 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { updateUser } from "@/lib/actions/user.actions";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { Button } from "../ui/button";
 interface Props {
   userDataAccount: {
     id: string | undefined;
@@ -552,22 +553,34 @@ const Game = ({ userDataAccount }: Props) => {
       <div className={`${startTimer ? "fixed" : "hidden"}`}>
         {formatTime(timeRemaining)}
       </div>
-      {showModal && (
+      {!showModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-black p-4 rounded-md">
-            <p>Waktu telah habis!</p>
-            {allCorrect > 0 && <p>total benar: {allCorrect}</p>}
-            {allWrong > 0 && <p>total salah: {allWrong}</p>}
-            {allWrong > 0 && <p>Tinker: {calculateTinkerValue()}</p>}
-            {allWrong > 0 && <p>Janker: {calculateJankerValue()}</p>}
-            {allWrong > 0 && <p>Panker: {calculatePankerValue()}</p>}
-            {allWrong > 0 && <p>Hanker: {calculateHankerValue()}</p>}
-            <button onClick={handleResetTimer}>Save</button>
-            <button onClick={() => router.push("/")}>Close</button>
-          </div>
+          <Card className="bg-black p-6 rounded-md">
+            <CardTitle>
+              <p>Waktu telah habis!</p>
+            </CardTitle>
+            <div className="flex flex-col mt-4">
+              {!allCorrect > 0 && <p>total benar: {allCorrect}</p>}
+              {!allWrong > 0 && <p>total salah: {allWrong}</p>}
+              {!allWrong > 0 && <p>Tinker: {calculateTinkerValue()}</p>}
+              {!allWrong > 0 && <p>Janker: {calculateJankerValue()}</p>}
+              {!allWrong > 0 && <p>Panker: {calculatePankerValue()}</p>}
+              {!allWrong > 0 && <p>Hanker: {calculateHankerValue()}</p>}
+            </div>
+
+            <div className="flex justify-between gap-2 mt-4">
+              <Button onClick={handleResetTimer}>Save</Button>
+              <Button
+                className="bg-transparent border text-white"
+                onClick={() => router.push("/")}
+              >
+                Close
+              </Button>
+            </div>
+          </Card>
         </div>
       )}
-      <Card className="flex flex-row mt-10 rounded-lg border-2 justify-center items-center p-4 pl-10 gap-4">
+      <Card className="flex sm:flex-col md:flex-col lg:flex-row mt-10 rounded-lg border-2 justify-center items-center p-4 pl-10 gap-4">
         <div className="flex flex-col w-full">
           <ul className="w-full">
             {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(
@@ -789,10 +802,7 @@ const Game = ({ userDataAccount }: Props) => {
           </ul>
         </div>
       </Card>
-
-      {allWrong > 0 && <p>{calculateJankerValue()}</p>}
-
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-4">
         {startTimer ? (
           <button
             onClick={handleResetTimer}
