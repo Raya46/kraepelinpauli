@@ -560,12 +560,36 @@ const Game = ({ userDataAccount }: Props) => {
               <p>Waktu telah habis!</p>
             </CardTitle>
             <div className="flex flex-col mt-4">
-              {!allCorrect > 0 && <p>total benar: {allCorrect}</p>}
-              {!allWrong > 0 && <p>total salah: {allWrong}</p>}
-              {!allWrong > 0 && <p>Tinker: {calculateTinkerValue()}</p>}
-              {!allWrong > 0 && <p>Janker: {calculateJankerValue()}</p>}
-              {!allWrong > 0 && <p>Panker: {calculatePankerValue()}</p>}
-              {!allWrong > 0 && <p>Hanker: {calculateHankerValue()}</p>}
+              {allCorrect === 0 ? (
+                <p>total benar: 0</p>
+              ) : (
+                <p>total benar: {allCorrect}</p>
+              )}
+              {allWrong === 0 ? (
+                <p>total salah: 0</p>
+              ) : (
+                <p>total salah: {allWrong}</p>
+              )}
+              {allWrong === 0 ? (
+                <p>Tinker: 0</p>
+              ) : (
+                <p>Tinker: {calculateTinkerValue()}</p>
+              )}
+              {allWrong === 0 ? (
+                <p>Janker: 0</p>
+              ) : (
+                <p>Janker: {calculateJankerValue()}</p>
+              )}
+              {allWrong === 0 ? (
+                <p>Panker: 0</p>
+              ) : (
+                <p>Panker: {calculatePankerValue()}</p>
+              )}
+              {allWrong === 0 ? (
+                <p>Hanker: 0</p>
+              ) : (
+                <p>Hanker: {calculateHankerValue()}</p>
+              )}
             </div>
 
             <div className="flex justify-between gap-2 mt-4">
