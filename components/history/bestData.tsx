@@ -5,7 +5,7 @@ import { Card, CardDescription, CardTitle } from "../ui/card";
 
 const CardBestData = ({ user }: { user: any }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full lg:w-80">
       <Card className="w-full p-4">
         <div className="flex flex-row gap-2">
           <CardDescription>total benar:</CardDescription>

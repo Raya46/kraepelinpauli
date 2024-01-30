@@ -5,7 +5,7 @@ import { Card, CardDescription, CardTitle } from "../ui/card";
 
 const CardDetailData = ({ user }: { user: any }) => {
   return (
-    <div className="gap-2 flex sm:flex-col md:flex-col lg:flex-row">
+    <div className="gap-2 flex flex-col lg:flex-row">
       <Card className="w-full p-4">
         <div className="flex gap-2 justify-between">
           <CardDescription>total benar:</CardDescription>

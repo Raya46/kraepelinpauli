@@ -24,8 +24,8 @@ const HistoryPage = async () => {
   const dataChart = await dataForChart(user.id);
   return (
     <div className="container mx-auto mt-5">
-      <div className="flex justify-center gap-10">
-        <Card className="flex flex-col w-1/2 justify-center items-center p-5">
+      <div className="flex flex-col lg:flex-row items-center w-full justify-center gap-10">
+        <Card className="flex flex-col w-full lg:w-1/2 justify-center items-center p-5">
           <ChartLine dataGame={dataChart} />
         </Card>
         <CardBestData user={bestUser} />

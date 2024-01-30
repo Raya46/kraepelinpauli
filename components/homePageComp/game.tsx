@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
+import { SignedIn } from "@clerk/nextjs";
 interface Props {
   userDataAccount: {
     id: string | undefined;
@@ -553,7 +554,7 @@ const Game = ({ userDataAccount }: Props) => {
       <div className={`${startTimer ? "fixed" : "hidden"}`}>
         {formatTime(timeRemaining)}
       </div>
-      {!showModal && (
+      {showModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <Card className="bg-black p-6 rounded-md">
             <CardTitle>
@@ -593,10 +594,12 @@ const Game = ({ userDataAccount }: Props) => {
             </div>
 
             <div className="flex justify-between gap-2 mt-4">
+              <SignedIn>
               <Button onClick={handleResetTimer}>Save</Button>
+              </SignedIn>
               <Button
                 className="bg-transparent border text-white"
-                onClick={() => router.push("/")}
+                onClick={() => setShowModal(false)}
               >
                 Close
               </Button>
@@ -604,7 +607,7 @@ const Game = ({ userDataAccount }: Props) => {
           </Card>
         </div>
       )}
-      <Card className="flex sm:flex-col md:flex-col lg:flex-row mt-10 rounded-lg border-2 justify-center items-center p-4 pl-10 gap-4">
+      <Card className="flex flex-col lg:flex-row mt-10 rounded-lg border-2 justify-center items-center p-4 pl-10 gap-4">
         <div className="flex flex-col w-full">
           <ul className="w-full">
             {Array.from({ length: Math.ceil(randomNumbers.length / 6) }).map(

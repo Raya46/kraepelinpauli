@@ -5,6 +5,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { SignedOut } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/clerk-react";
 
 export const MobileSideBar = () => {
   const pathname = usePathname();
@@ -15,18 +17,6 @@ export const MobileSideBar = () => {
       icon: Home,
       href: "/",
       label: "Home",
-      pro: false,
-    },
-    {
-      icon: History,
-      href: "/history",
-      label: "History",
-      pro: false,
-    },
-    {
-      icon: Settings,
-      href: "/profile",
-      label: "Manage Account",
       pro: false,
     },
   ];
@@ -58,6 +48,7 @@ export const MobileSideBar = () => {
                   </div>
                 </div>
               ))}
+              <SignedOut>
               <Link href="/sign-in">
                 <div className="space-y-2">
                   <div
@@ -72,6 +63,38 @@ export const MobileSideBar = () => {
                   </div>
                 </div>
               </Link>
+              </SignedOut>
+              <SignedIn>
+              <Link href="/history">
+                <div className="space-y-2">
+                  <div
+                    className={
+                      "text-muted-foreground text-sm group flex p-3 w-full font-medium cursor-pointer hover:text-primary hover:bg-primary/10 rounded-lg transition justify-center"
+                    }
+                  >
+                    <div className="flex flex-col gap-y-2 items-center flex-1">
+                      <History className="w-5 h-5" />
+                      History
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              <Link href="/profile">
+                <div className="space-y-2">
+                  <div
+                    className={
+                      "text-muted-foreground text-sm group flex p-3 w-full font-medium cursor-pointer hover:text-primary hover:bg-primary/10 rounded-lg transition justify-center"
+                    }
+                  >
+                    <div className="flex flex-col gap-y-2 items-center flex-1">
+                      <User className="w-5 h-5" />
+                      Profile
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              </SignedIn>
+             
             </div>
           </div>
         </div>

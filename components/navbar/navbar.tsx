@@ -3,7 +3,7 @@
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/theme-toggle";
 import { usePathname, useRouter } from "next/navigation";
 import { MobileSideBar } from "../mobile-sidebar";
@@ -21,12 +21,7 @@ export const Navbar = () => {
       href: "/",
       label: "Home",
       pro: false,
-    },
-    {
-      href: "/history",
-      label: "History",
-      pro: false,
-    },
+    }
   ];
 
   const onNavigate = (url: string, pro: boolean) => {
@@ -62,6 +57,14 @@ export const Navbar = () => {
             {route.label}
           </div>
         ))}
+        <SignedIn>
+        <Link
+            href="/history"
+            className="text-muted-foreground text-sm group p-3 font-medium cursor-pointer hover:text-primary hover:bg-primary/10 rounded-lg transition justify-center"
+          >
+            History
+          </Link>
+        </SignedIn>
         <SignedOut>
           <Link
             href="/sign-in"
